@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart — SHOP</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="navbar-logo">SHOP</a>
+      <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="navbar-links" id="navbar-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#products">Shop</a></li>
+        <li>
+          <a href="cart.html" class="cart-link">
+            Cart <span class="cart-badge" id="cart-count">0</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="cart-page">
+    <div class="container">
+
+      <div class="page-header" style="padding-top:var(--space-6);margin-bottom:var(--space-8);">
+        <h1 class="page-title">Your Cart</h1>
+        <p class="page-subtitle" id="cart-item-count"></p>
+      </div>
+
+      <!-- Empty state -->
+      <div id="cart-empty" class="cart-empty" style="display:none;">
+        <div class="cart-empty-title">Your cart is empty</div>
+        <p class="cart-empty-text">Looks like you haven't added anything yet.</p>
+        <a href="index.html#products" class="btn btn-primary btn-lg">Start Shopping</a>
+      </div>
+
+      <!-- Cart content -->
+      <div id="cart-content" class="cart-layout">
+
+        <!-- Items column -->
+        <div>
+          <div class="cart-items" id="cart-items"></div>
+        </div>
+
+        <!-- Summary column -->
+        <div class="order-summary" id="order-summary">
+          <h2 class="order-summary-title">Order Summary</h2>
+
+          <div class="order-summary-line">
+            <span>Subtotal</span>
+            <span id="summary-subtotal">$0.00</span>
+          </div>
+          <div class="order-summary-line">
+            <span>Shipping</span>
+            <span id="summary-shipping">Calculated at checkout</span>
+          </div>
+          <div class="order-summary-line total">
+            <span>Estimated Total</span>
+            <span id="summary-total">$0.00</span>
+          </div>
+
+          <a href="checkout.html" class="btn btn-primary btn-lg btn-full" id="checkout-btn">
+            Proceed to Checkout
+          </a>
+
+          <p class="shipping-note">Free shipping on orders over $75</p>
+
+          <a href="index.html#products" class="btn btn-ghost btn-full" style="margin-top:var(--space-2);">
+            ← Continue Shopping
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 SHOP. Built with plain HTML, CSS &amp; JavaScript.</p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      function renderCart() {
+        const cartItems = Cart.getCart();
+        const countEl = document.getElementById('cart-item-count');
+        const emptyEl = document.getElementById('cart-empty');
+        const contentEl = document.getElementById('cart-content');
+        const itemsEl = document.getElementById('cart-items');
+        const subtotalEl = document.getElementById('summary-subtotal');
+        const totalEl = document.getElementById('summary-total');
+        const shippingEl = document.getElementById('summary-shipping');
+
+        const total = Cart.getCount();
+        countEl.textContent = total + ' item' + (total !== 1 ? 's' : '');
+
+        if (cartItems.length === 0) {
+          emptyEl.style.display = '';
+          contentEl.style.display = 'none';
+          return;
+        }
+
+        emptyEl.style.display = 'none';
+        contentEl.style.display = '';
+
+        const subtotal = Cart.getSubtotal();
+        const shippingFree = subtotal >= 75;
+        const shippingCost = shippingFree ? 0 : 7.99;
+
+        subtotalEl.textContent = formatPrice(subtotal);
+        shippingEl.textContent = shippingFree ? 'Free' : formatPrice(shippingCost);
+        totalEl.textContent = formatPrice(subtotal + shippingCost);
+
+        itemsEl.innerHTML = cartItems.map(function (item) {
+          return '<div class="cart-item" data-key="' + item.key + '">' +
+
+            '<img class="cart-item-img" src="' + item.image + '" alt="' + item.name + '" />' +
+
+            '<div class="cart-item-info">' +
+              '<span class="cart-item-name">' + item.name + '</span>' +
+              '<span class="cart-item-meta">Size: ' + item.size + '</span>' +
+              '<span class="cart-item-price">' + formatPrice(item.price) + ' each</span>' +
+            '</div>' +
+
+            '<div class="cart-item-controls">' +
+              '<span class="cart-item-total">' + formatPrice(item.price * item.quantity) + '</span>' +
+              '<div class="cart-qty-picker">' +
+                '<button class="cart-qty-btn" data-action="minus" data-key="' + item.key + '" aria-label="Decrease">&minus;</button>' +
+                '<input type="number" class="cart-qty-input" value="' + item.quantity + '" min="1" max="99" ' +
+                  'data-key="' + item.key + '" aria-label="Quantity" />' +
+                '<button class="cart-qty-btn" data-action="plus" data-key="' + item.key + '" aria-label="Increase">+</button>' +
+              '</div>' +
+              '<button class="cart-remove-btn" data-key="' + item.key + '">Remove</button>' +
+            '</div>' +
+
+          '</div>';
+        }).join('');
+      }
+
+      // Delegate events on the items list
+      document.getElementById('cart-items').addEventListener('click', function (e) {
+        const key = e.target.dataset.key;
+        if (!key) return;
+
+        if (e.target.classList.contains('cart-remove-btn')) {
+          Cart.removeItem(key);
+          renderCart();
+          return;
+        }
+
+        if (e.target.dataset.action === 'minus') {
+          const item = Cart.getCart().find(function (i) { return i.key === key; });
+          if (item) {
+            if (item.quantity <= 1) {
+              Cart.removeItem(key);
+            } else {
+              Cart.updateQuantity(key, item.quantity - 1);
+            }
+            renderCart();
+          }
+          return;
+        }
+
+        if (e.target.dataset.action === 'plus') {
+          const item = Cart.getCart().find(function (i) { return i.key === key; });
+          if (item) {
+            Cart.updateQuantity(key, item.quantity + 1);
+            renderCart();
+          }
+        }
+      });
+
+      document.getElementById('cart-items').addEventListener('change', function (e) {
+        if (!e.target.classList.contains('cart-qty-input')) return;
+        const key = e.target.dataset.key;
+        const val = parseInt(e.target.value, 10);
+        if (val < 1) {
+          Cart.removeItem(key);
+        } else {
+          Cart.updateQuantity(key, val);
+        }
+        renderCart();
+      });
+
+      renderCart();
+    })();
+  </script>
+</body>
+</html>

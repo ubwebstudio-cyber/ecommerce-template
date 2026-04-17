@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SHOP — Modern E-Commerce</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="navbar-logo">SHOP</a>
+      <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="navbar-links" id="navbar-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="#products">Shop</a></li>
+        <li>
+          <a href="cart.html" class="cart-link">
+            Cart <span class="cart-badge" id="cart-count">0</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <p class="hero-label">New Season Collection</p>
+      <h1 class="hero-title">Clean Essentials<br>for Every Day</h1>
+      <p class="hero-subtitle">Thoughtfully designed products built for simplicity, quality, and lasting style.</p>
+      <div class="hero-actions">
+        <a href="#products" class="btn btn-primary btn-lg">Shop Now</a>
+        <a href="#products" class="btn btn-outline btn-lg">View All</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRODUCTS SECTION -->
+  <section id="products" style="padding-bottom: var(--space-20);">
+    <div class="container">
+
+      <div class="section-header">
+        <h2 class="section-title">All Products</h2>
+        <p class="section-subtitle">Explore our full range across all categories.</p>
+      </div>
+
+      <!-- Toolbar: search + sort -->
+      <div class="products-toolbar">
+        <div class="search-wrapper">
+          <span class="search-icon" aria-hidden="true">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+          </span>
+          <input
+            type="search"
+            id="search-input"
+            class="search-input"
+            placeholder="Search products…"
+            aria-label="Search products"
+          />
+        </div>
+        <div class="sort-select-wrapper">
+          <select id="sort-select" class="sort-select" aria-label="Sort products">
+            <option value="default">Sort: Featured</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+            <option value="name-asc">Name: A–Z</option>
+            <option value="name-desc">Name: Z–A</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Category filters -->
+      <div class="category-filters" id="category-filters" role="group" aria-label="Filter by category">
+        <button class="filter-btn active" data-category="all">All</button>
+        <button class="filter-btn" data-category="clothing">Clothing</button>
+        <button class="filter-btn" data-category="electronics">Electronics</button>
+        <button class="filter-btn" data-category="accessories">Accessories</button>
+        <button class="filter-btn" data-category="footwear">Footwear</button>
+      </div>
+
+      <p class="products-count" id="products-count"></p>
+
+      <!-- Product grid -->
+      <div class="products-grid" id="products-grid"></div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 SHOP. Built with plain HTML, CSS &amp; JavaScript.</p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      let activeCategory = 'all';
+      let searchQuery = '';
+      let sortOrder = 'default';
+
+      function getFiltered() {
+        let list = products.slice();
+
+        if (activeCategory !== 'all') {
+          list = list.filter(function (p) { return p.category === activeCategory; });
+        }
+
+        if (searchQuery) {
+          const q = searchQuery.toLowerCase();
+          list = list.filter(function (p) {
+            return p.name.toLowerCase().includes(q) ||
+                   p.category.toLowerCase().includes(q) ||
+                   p.description.toLowerCase().includes(q);
+          });
+        }
+
+        if (sortOrder === 'price-asc') {
+          list.sort(function (a, b) { return a.price - b.price; });
+        } else if (sortOrder === 'price-desc') {
+          list.sort(function (a, b) { return b.price - a.price; });
+        } else if (sortOrder === 'name-asc') {
+          list.sort(function (a, b) { return a.name.localeCompare(b.name); });
+        } else if (sortOrder === 'name-desc') {
+          list.sort(function (a, b) { return b.name.localeCompare(a.name); });
+        }
+
+        return list;
+      }
+
+      function renderGrid() {
+        const grid = document.getElementById('products-grid');
+        const countEl = document.getElementById('products-count');
+        const filtered = getFiltered();
+
+        countEl.textContent = filtered.length + ' product' + (filtered.length !== 1 ? 's' : '');
+
+        if (filtered.length === 0) {
+          grid.innerHTML = '<p class="products-empty">No products match your search.</p>';
+          return;
+        }
+
+        grid.innerHTML = filtered.map(function (p) {
+          const badgeHtml = p.badge
+            ? '<span class="badge badge-' + p.badge.toLowerCase() + ' product-card-badge">' + p.badge + '</span>'
+            : '';
+          const oldPriceHtml = p.oldPrice
+            ? '<span class="product-card-old-price">' + formatPrice(p.oldPrice) + '</span>'
+            : '';
+          return '<a href="product.html?id=' + p.id + '" class="product-card">' +
+            '<div class="product-card-img-wrap">' +
+              '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy" />' +
+              badgeHtml +
+            '</div>' +
+            '<div class="product-card-body">' +
+              '<span class="product-card-category">' + p.category + '</span>' +
+              '<span class="product-card-name">' + p.name + '</span>' +
+              '<div class="product-card-prices">' +
+                '<span class="product-card-price">' + formatPrice(p.price) + '</span>' +
+                oldPriceHtml +
+              '</div>' +
+            '</div>' +
+          '</a>';
+        }).join('');
+      }
+
+      // Category filter
+      document.getElementById('category-filters').addEventListener('click', function (e) {
+        const btn = e.target.closest('.filter-btn');
+        if (!btn) return;
+        document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        activeCategory = btn.dataset.category;
+        renderGrid();
+      });
+
+      // Search
+      document.getElementById('search-input').addEventListener('input', function (e) {
+        searchQuery = e.target.value.trim();
+        renderGrid();
+      });
+
+      // Sort
+      document.getElementById('sort-select').addEventListener('change', function (e) {
+        sortOrder = e.target.value;
+        renderGrid();
+      });
+
+      renderGrid();
+    })();
+  </script>
+</body>
+</html>

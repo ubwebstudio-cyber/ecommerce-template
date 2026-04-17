@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Order Confirmed — SHOP</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="navbar-logo">SHOP</a>
+      <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="navbar-links" id="navbar-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#products">Shop</a></li>
+        <li>
+          <a href="cart.html" class="cart-link">
+            Cart <span class="cart-badge" id="cart-count">0</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main class="success-page">
+    <div class="container">
+
+      <div class="success-icon" aria-hidden="true">&#10003;</div>
+
+      <h1 class="success-title">Order Confirmed!</h1>
+      <p class="success-subtitle">Thank you for your purchase.</p>
+
+      <div class="success-order-number" id="order-number">—</div>
+
+      <p class="success-detail">
+        We've received your order and will start processing it right away.
+        A confirmation email would normally be sent to you at this point —
+        but this is a demo template, so nothing was actually charged or shipped.
+      </p>
+
+      <div style="display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap;">
+        <a href="index.html" class="btn btn-primary btn-lg">Back to Shop</a>
+        <a href="index.html#products" class="btn btn-outline btn-lg">Continue Shopping</a>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 SHOP. Built with plain HTML, CSS &amp; JavaScript.</p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const order = params.get('order');
+      const el = document.getElementById('order-number');
+      if (order) {
+        el.textContent = order;
+      } else {
+        // Fallback: generate one if page is visited directly
+        el.textContent = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+      }
+    })();
+  </script>
+</body>
+</html>

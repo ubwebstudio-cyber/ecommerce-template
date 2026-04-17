@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product — SHOP</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="navbar-logo">SHOP</a>
+      <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+      <ul class="navbar-links" id="navbar-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="index.html#products">Shop</a></li>
+        <li>
+          <a href="cart.html" class="cart-link">
+            Cart <span class="cart-badge" id="cart-count">0</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- PRODUCT DETAIL -->
+  <div class="product-detail">
+    <div class="container">
+
+      <!-- Breadcrumb -->
+      <nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb">
+        <a href="index.html">Home</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <a href="index.html#products">Shop</a>
+        <span class="breadcrumb-sep" aria-hidden="true">/</span>
+        <span id="breadcrumb-name">Product</span>
+      </nav>
+
+      <div id="product-detail-content">
+        <!-- Rendered by JS -->
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RELATED PRODUCTS -->
+  <section class="related-section" id="related-section" style="display:none;">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">You Might Also Like</h2>
+      </div>
+      <div class="products-grid" id="related-grid"></div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2025 SHOP. Built with plain HTML, CSS &amp; JavaScript.</p>
+    </div>
+  </footer>
+
+  <script src="js/products.js"></script>
+  <script src="js/cart.js"></script>
+  <script src="js/main.js"></script>
+  <script>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const id = parseInt(params.get('id'), 10);
+      const product = products.find(function (p) { return p.id === id; });
+
+      if (!product) {
+        document.getElementById('product-detail-content').innerHTML =
+          '<div style="text-align:center;padding:var(--space-20) 0;">' +
+          '<h2 style="font-size:var(--font-size-2xl);margin-bottom:var(--space-4);">Product not found</h2>' +
+          '<a href="index.html" class="btn btn-primary">Back to Shop</a></div>';
+        return;
+      }
+
+      // Update page title
+      document.title = product.name + ' — SHOP';
+      document.getElementById('breadcrumb-name').textContent = product.name;
+
+      let selectedSize = product.sizes.length === 1 ? product.sizes[0] : null;
+      let quantity = 1;
+
+      function renderDetail() {
+        const badgeHtml = product.badge
+          ? '<span class="badge badge-' + product.badge.toLowerCase() + '">' + product.badge + '</span>'
+          : '';
+        const oldPriceHtml = product.oldPrice
+          ? '<span class="product-detail-old-price">' + formatPrice(product.oldPrice) + '</span>'
+          : '';
+        const savingsHtml = product.oldPrice
+          ? '<span class="badge badge-sale" style="margin-left:var(--space-2);">Save ' +
+            formatPrice(product.oldPrice - product.price) + '</span>'
+          : '';
+
+        const sizesHtml = product.sizes.map(function (s) {
+          const isSelected = s === selectedSize ? ' selected' : '';
+          return '<button class="size-btn' + isSelected + '" data-size="' + s + '">' + s + '</button>';
+        }).join('');
+
+        document.getElementById('product-detail-content').innerHTML =
+          '<div class="product-detail-grid">' +
+
+            // Image
+            '<div class="product-detail-img-wrap">' +
+              '<img src="' + product.image + '" alt="' + product.name + '" />' +
+            '</div>' +
+
+            // Info
+            '<div class="product-detail-info">' +
+
+              '<div>' +
+                '<p class="product-detail-category">' + product.category + '</p>' +
+                (badgeHtml ? '<div style="margin-top:var(--space-2);">' + badgeHtml + '</div>' : '') +
+              '</div>' +
+
+              '<h1 class="product-detail-name">' + product.name + '</h1>' +
+
+              '<div class="product-detail-prices">' +
+                '<span class="product-detail-price">' + formatPrice(product.price) + '</span>' +
+                oldPriceHtml +
+                savingsHtml +
+              '</div>' +
+
+              '<p class="product-detail-desc">' + product.description + '</p>' +
+
+              // Sizes
+              '<div>' +
+                '<div class="product-detail-label">' +
+                  '<span>Size</span>' +
+                  '<span class="selected-size-display" id="selected-size-display">' +
+                    (selectedSize || 'Select a size') +
+                  '</span>' +
+                '</div>' +
+                '<div class="size-options" id="size-options">' + sizesHtml + '</div>' +
+                '<p class="form-error" id="size-error"></p>' +
+              '</div>' +
+
+              // Quantity
+              '<div>' +
+                '<p class="product-detail-label"><span>Quantity</span></p>' +
+                '<div class="quantity-picker">' +
+                  '<button class="qty-btn" id="qty-minus" aria-label="Decrease quantity">&minus;</button>' +
+                  '<input type="number" class="qty-input" id="qty-input" value="1" min="1" max="99" aria-label="Quantity" />' +
+                  '<button class="qty-btn" id="qty-plus" aria-label="Increase quantity">+</button>' +
+                '</div>' +
+              '</div>' +
+
+              // Actions
+              '<div class="product-detail-actions">' +
+                '<button class="btn btn-primary btn-lg btn-full" id="add-to-cart-btn">Add to Cart</button>' +
+                '<a href="cart.html" class="btn btn-outline btn-lg btn-full">View Cart</a>' +
+              '</div>' +
+
+            '</div>' +
+          '</div>';
+
+        // Bind size buttons
+        document.getElementById('size-options').addEventListener('click', function (e) {
+          const btn = e.target.closest('.size-btn');
+          if (!btn) return;
+          document.querySelectorAll('.size-btn').forEach(function (b) { b.classList.remove('selected'); });
+          btn.classList.add('selected');
+          selectedSize = btn.dataset.size;
+          document.getElementById('selected-size-display').textContent = selectedSize;
+          document.getElementById('size-error').textContent = '';
+        });
+
+        // Quantity controls
+        document.getElementById('qty-minus').addEventListener('click', function () {
+          const input = document.getElementById('qty-input');
+          const v = Math.max(1, parseInt(input.value, 10) - 1);
+          input.value = v;
+          quantity = v;
+        });
+
+        document.getElementById('qty-plus').addEventListener('click', function () {
+          const input = document.getElementById('qty-input');
+          const v = Math.min(99, parseInt(input.value, 10) + 1);
+          input.value = v;
+          quantity = v;
+        });
+
+        document.getElementById('qty-input').addEventListener('input', function (e) {
+          const v = Math.max(1, Math.min(99, parseInt(e.target.value, 10) || 1));
+          e.target.value = v;
+          quantity = v;
+        });
+
+        // Add to cart
+        document.getElementById('add-to-cart-btn').addEventListener('click', function () {
+          if (!selectedSize) {
+            document.getElementById('size-error').textContent = 'Please select a size.';
+            document.getElementById('size-options').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            return;
+          }
+          Cart.addItem(product, selectedSize, quantity);
+          showToast(product.name + ' added to cart!');
+        });
+      }
+
+      function renderRelated() {
+        const related = products.filter(function (p) {
+          return p.category === product.category && p.id !== product.id;
+        }).slice(0, 4);
+
+        if (related.length === 0) return;
+
+        document.getElementById('related-section').style.display = '';
+        document.getElementById('related-grid').innerHTML = related.map(function (p) {
+          const badgeHtml = p.badge
+            ? '<span class="badge badge-' + p.badge.toLowerCase() + ' product-card-badge">' + p.badge + '</span>'
+            : '';
+          const oldPriceHtml = p.oldPrice
+            ? '<span class="product-card-old-price">' + formatPrice(p.oldPrice) + '</span>'
+            : '';
+          return '<a href="product.html?id=' + p.id + '" class="product-card">' +
+            '<div class="product-card-img-wrap">' +
+              '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy" />' +
+              badgeHtml +
+            '</div>' +
+            '<div class="product-card-body">' +
+              '<span class="product-card-category">' + p.category + '</span>' +
+              '<span class="product-card-name">' + p.name + '</span>' +
+              '<div class="product-card-prices">' +
+                '<span class="product-card-price">' + formatPrice(p.price) + '</span>' +
+                oldPriceHtml +
+              '</div>' +
+            '</div>' +
+          '</a>';
+        }).join('');
+      }
+
+      renderDetail();
+      renderRelated();
+    })();
+  </script>
+</body>
+</html>
