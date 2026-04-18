@@ -166,6 +166,36 @@ function flyToCart(sourceEl) {
   });
 }
 
+// ── Theme toggle ──────────────────────────────────────────
+function initThemeToggle() {
+  var btn = document.getElementById('theme-toggle');
+  if (!btn) return;
+
+  function applyTheme(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('shop-theme', theme);
+    btn.setAttribute('aria-label', theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+    btn.setAttribute('title',      theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  }
+
+  // Sync button label with whatever the anti-FOUC script already applied
+  var current = document.documentElement.getAttribute('data-theme') || 'light';
+  btn.setAttribute('aria-label', current === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+  btn.setAttribute('title',      current === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+
+  btn.addEventListener('click', function () {
+    var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    applyTheme(next);
+  });
+
+  // Respond to OS-level preference changes when no stored preference exists
+  if (window.matchMedia) {
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function (e) {
+      if (!localStorage.getItem('shop-theme')) applyTheme(e.matches ? 'dark' : 'light');
+    });
+  }
+}
+
 // ── Navbar ────────────────────────────────────────────────
 function initNavbar() {
   var toggle = document.getElementById('navbar-toggle');
@@ -231,6 +261,7 @@ function showToast(message) {
 document.addEventListener('DOMContentLoaded', function () {
   Cart.updateCartBadge();
   initNavbar();
+  initThemeToggle();
   initBlobCanvas();
   initScrollProgress();
   initBackToTop();
