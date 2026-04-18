@@ -47,7 +47,7 @@
 
         <!-- Items column -->
         <div>
-          <div class="cart-items" id="cart-items"></div>
+          <ul class="cart-items" id="cart-items" aria-label="Cart items"></ul>
         </div>
 
         <!-- Summary column -->
@@ -126,7 +126,7 @@
         totalEl.textContent = formatPrice(subtotal + shippingCost);
 
         itemsEl.innerHTML = cartItems.map(function (item) {
-          return '<div class="cart-item" data-key="' + item.key + '">' +
+          return '<li class="cart-item" data-key="' + item.key + '">' +
 
             '<img class="cart-item-img" src="' + item.image + '" alt="' + item.name + '" />' +
 
@@ -139,15 +139,15 @@
             '<div class="cart-item-controls">' +
               '<span class="cart-item-total">' + formatPrice(item.price * item.quantity) + '</span>' +
               '<div class="cart-qty-picker">' +
-                '<button class="cart-qty-btn" data-action="minus" data-key="' + item.key + '" aria-label="Decrease">&minus;</button>' +
+                '<button class="cart-qty-btn" data-action="minus" data-key="' + item.key + '" aria-label="Decrease quantity for ' + item.name + '">&minus;</button>' +
                 '<input type="number" class="cart-qty-input" value="' + item.quantity + '" min="1" max="99" ' +
-                  'data-key="' + item.key + '" aria-label="Quantity" />' +
-                '<button class="cart-qty-btn" data-action="plus" data-key="' + item.key + '" aria-label="Increase">+</button>' +
+                  'data-key="' + item.key + '" aria-label="Quantity for ' + item.name + '" />' +
+                '<button class="cart-qty-btn" data-action="plus" data-key="' + item.key + '" aria-label="Increase quantity for ' + item.name + '">+</button>' +
               '</div>' +
-              '<button class="cart-remove-btn" data-key="' + item.key + '">Remove</button>' +
+              '<button class="cart-remove-btn" data-key="' + item.key + '" aria-label="Remove ' + item.name + ' from cart">Remove</button>' +
             '</div>' +
 
-          '</div>';
+          '</li>';
         }).join('');
       }
 

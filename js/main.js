@@ -31,18 +31,21 @@ function initNavbar() {
   });
 }
 
-// Utility: format price
+// Utility: format price using Intl for locale-aware formatting
 function formatPrice(price) {
-  return '$' + parseFloat(price).toFixed(2);
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
 }
 
-// Utility: show a temporary toast notification
+// Utility: show a temporary toast notification (aria-live for screen readers)
 function showToast(message) {
-  let toast = document.getElementById('toast');
+  var toast = document.getElementById('toast');
   if (!toast) {
     toast = document.createElement('div');
     toast.id = 'toast';
     toast.className = 'toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.setAttribute('aria-atomic', 'true');
     document.body.appendChild(toast);
   }
   toast.textContent = message;

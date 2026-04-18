@@ -53,20 +53,20 @@
               <div class="form-fields">
                 <div class="form-row cols-2">
                   <div class="form-group">
-                    <label class="form-label" for="first-name">First Name</label>
-                    <input type="text" id="first-name" name="firstName" class="form-input" autocomplete="given-name" />
-                    <span class="form-error" id="err-first-name"></span>
+                    <label class="form-label" for="first-name">First Name<span class="required-star" aria-hidden="true">*</span></label>
+                    <input type="text" id="first-name" name="firstName" class="form-input" autocomplete="given-name" aria-required="true" aria-describedby="err-first-name" />
+                    <span class="form-error" id="err-first-name" aria-live="polite"></span>
                   </div>
                   <div class="form-group">
-                    <label class="form-label" for="last-name">Last Name</label>
-                    <input type="text" id="last-name" name="lastName" class="form-input" autocomplete="family-name" />
-                    <span class="form-error" id="err-last-name"></span>
+                    <label class="form-label" for="last-name">Last Name<span class="required-star" aria-hidden="true">*</span></label>
+                    <input type="text" id="last-name" name="lastName" class="form-input" autocomplete="family-name" aria-required="true" aria-describedby="err-last-name" />
+                    <span class="form-error" id="err-last-name" aria-live="polite"></span>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="email">Email Address</label>
-                  <input type="email" id="email" name="email" class="form-input" autocomplete="email" />
-                  <span class="form-error" id="err-email"></span>
+                  <label class="form-label" for="email">Email Address<span class="required-star" aria-hidden="true">*</span></label>
+                  <input type="email" id="email" name="email" class="form-input" autocomplete="email" aria-required="true" aria-describedby="err-email" />
+                  <span class="form-error" id="err-email" aria-live="polite"></span>
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="phone">Phone Number <span style="font-weight:400;color:var(--color-text-muted);">(optional)</span></label>
@@ -80,9 +80,9 @@
               <h2 class="form-section-title">Shipping Address</h2>
               <div class="form-fields">
                 <div class="form-group">
-                  <label class="form-label" for="address">Street Address</label>
-                  <input type="text" id="address" name="address" class="form-input" autocomplete="street-address" />
-                  <span class="form-error" id="err-address"></span>
+                  <label class="form-label" for="address">Street Address<span class="required-star" aria-hidden="true">*</span></label>
+                  <input type="text" id="address" name="address" class="form-input" autocomplete="street-address" aria-required="true" aria-describedby="err-address" />
+                  <span class="form-error" id="err-address" aria-live="polite"></span>
                 </div>
                 <div class="form-group">
                   <label class="form-label" for="address2">Apartment, suite, etc. <span style="font-weight:400;color:var(--color-text-muted);">(optional)</span></label>
@@ -90,20 +90,20 @@
                 </div>
                 <div class="form-row cols-2">
                   <div class="form-group">
-                    <label class="form-label" for="city">City</label>
-                    <input type="text" id="city" name="city" class="form-input" autocomplete="address-level2" />
-                    <span class="form-error" id="err-city"></span>
+                    <label class="form-label" for="city">City<span class="required-star" aria-hidden="true">*</span></label>
+                    <input type="text" id="city" name="city" class="form-input" autocomplete="address-level2" aria-required="true" aria-describedby="err-city" />
+                    <span class="form-error" id="err-city" aria-live="polite"></span>
                   </div>
                   <div class="form-group">
-                    <label class="form-label" for="zip">ZIP / Postal Code</label>
-                    <input type="text" id="zip" name="zip" class="form-input" autocomplete="postal-code" />
-                    <span class="form-error" id="err-zip"></span>
+                    <label class="form-label" for="zip">ZIP / Postal Code<span class="required-star" aria-hidden="true">*</span></label>
+                    <input type="text" id="zip" name="zip" class="form-input" autocomplete="postal-code" aria-required="true" aria-describedby="err-zip" />
+                    <span class="form-error" id="err-zip" aria-live="polite"></span>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="country">Country</label>
+                  <label class="form-label" for="country">Country<span class="required-star" aria-hidden="true">*</span></label>
                   <div class="form-select-wrapper">
-                    <select id="country" name="country" class="form-select" autocomplete="country">
+                    <select id="country" name="country" class="form-select" autocomplete="country" aria-required="true" aria-describedby="err-country">
                       <option value="">Select a country…</option>
                       <option value="US">United States</option>
                       <option value="CA">Canada</option>
@@ -115,7 +115,7 @@
                       <option value="other">Other</option>
                     </select>
                   </div>
-                  <span class="form-error" id="err-country"></span>
+                  <span class="form-error" id="err-country" aria-live="polite"></span>
                 </div>
               </div>
             </div>
@@ -282,14 +282,21 @@
       document.getElementById('checkout-form').addEventListener('submit', function (e) {
         e.preventDefault();
         if (!validateForm()) {
-          const firstErr = document.querySelector('.form-input.error, .form-select.error');
+          var firstErr = document.querySelector('.form-input.error, .form-select.error');
           if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
           return;
         }
 
-        const orderNumber = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        // Show loading state
+        var submitBtn = document.querySelector('[type="submit"]');
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Placing Order…';
+
+        var orderNumber = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
         Cart.clearCart();
-        window.location.href = 'success.html?order=' + orderNumber;
+        setTimeout(function () {
+          window.location.href = 'success.html?order=' + orderNumber;
+        }, 600);
       });
 
     })();

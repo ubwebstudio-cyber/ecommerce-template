@@ -7,7 +7,7 @@
   --color-surface:      #f7f7f7;
   --color-border:       #e2e2e2;
   --color-text:         #111111;
-  --color-text-muted:   #777777;
+  --color-text-muted:   #555555;
   --color-accent:       #111111;
   --color-accent-hover: #333333;
   --color-badge-sale:   #c0392b;
@@ -61,6 +61,12 @@ body {
   background: var(--color-bg);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  animation: page-fade-in 0.25s ease-out both;
+}
+
+@keyframes page-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 img { display: block; max-width: 100%; height: auto; }
@@ -332,7 +338,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   grid-template-columns: 1fr;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 640px) {
   .form-row.cols-2 { grid-template-columns: 1fr 1fr; }
 }
 
@@ -367,13 +373,20 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   flex-direction: column;
 }
 
-.product-card:hover { border-color: #aaa; }
+.product-card:hover { border-color: var(--color-accent-hover); }
 
 .product-card-img-wrap {
   position: relative;
   aspect-ratio: 1 / 1;
-  background: var(--color-surface);
+  background: linear-gradient(90deg, #f0f0f0 25%, #e6e6e6 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite;
   overflow: hidden;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 .product-card-img-wrap img {
@@ -459,6 +472,10 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   color: var(--color-text-muted);
   font-size: var(--font-size-lg);
 }
+
+/* Grid fade on filter/search re-render */
+.products-grid { transition: opacity 0.15s ease; }
+.products-grid.is-filtering { opacity: 0.35; pointer-events: none; }
 
 /* ============================================================
    HERO
@@ -598,10 +615,11 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   background: var(--color-bg);
   color: var(--color-text-muted);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s, border-color 0.15s;
+  transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.1s;
 }
 
 .filter-btn:hover { color: var(--color-text); border-color: var(--color-text-muted); }
+.filter-btn:active { transform: scale(0.95); }
 
 .filter-btn.active {
   background: var(--color-accent);
@@ -746,7 +764,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   transition: background 0.15s, border-color 0.15s, color 0.15s;
 }
 
-.size-btn:hover { border-color: var(--color-text); }
+.size-btn:hover:not(.selected) { border-color: var(--color-text); background: var(--color-surface); }
 
 .size-btn.selected {
   background: var(--color-accent);
@@ -777,7 +795,8 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   justify-content: center;
 }
 
-.qty-btn:hover { color: var(--color-text); }
+.qty-btn:hover  { color: var(--color-text); }
+.qty-btn:active { transform: scale(0.88); }
 
 .qty-input {
   width: 56px;
@@ -834,7 +853,7 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   gap: var(--space-8);
 }
 
-@media (min-width: 768px) {
+@media (min-width: 1024px) {
   .cart-layout {
     grid-template-columns: 1fr 340px;
     align-items: start;
@@ -937,7 +956,8 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
   transition: color 0.15s;
 }
 
-.cart-qty-btn:hover { color: var(--color-text); }
+.cart-qty-btn:hover  { color: var(--color-text); }
+.cart-qty-btn:active { transform: scale(0.88); }
 
 .cart-qty-input {
   width: 40px;
@@ -1165,4 +1185,62 @@ input, select, textarea { font-family: inherit; font-size: inherit; }
 .page-subtitle {
   color: var(--color-text-muted);
   margin-top: var(--space-2);
+}
+
+/* ============================================================
+   FOCUS RINGS — keyboard accessibility
+   ============================================================ */
+.btn:focus-visible,
+.filter-btn:focus-visible,
+.size-btn:focus-visible,
+.qty-btn:focus-visible,
+.cart-qty-btn:focus-visible,
+.cart-remove-btn:focus-visible,
+.navbar-toggle:focus-visible,
+.navbar-links a:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.form-input:focus-visible,
+.form-select:focus-visible,
+.form-textarea:focus-visible,
+.search-input:focus-visible,
+.sort-select:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 0;
+  border-color: var(--color-accent);
+}
+
+/* ============================================================
+   REQUIRED FIELD INDICATOR
+   ============================================================ */
+.required-star {
+  color: var(--color-error);
+  font-weight: 700;
+  margin-left: 2px;
+  font-size: var(--font-size-sm);
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ============================================================
+   TOUCH TARGET IMPROVEMENTS (mobile)
+   ============================================================ */
+@media (max-width: 639px) {
+  .qty-btn      { width: 44px; height: 44px; }
+  .cart-qty-btn { width: 38px; height: 36px; }
 }

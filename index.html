@@ -87,8 +87,8 @@
 
       <p class="products-count" id="products-count"></p>
 
-      <!-- Product grid -->
-      <div class="products-grid" id="products-grid"></div>
+      <!-- Product grid — semantic list -->
+      <ul class="products-grid" id="products-grid"></ul>
 
     </div>
   </section>
@@ -102,26 +102,27 @@
 
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
+  <script src="js/templates.js"></script>
   <script src="js/main.js"></script>
   <script>
     (function () {
-      let activeCategory = 'all';
-      let searchQuery = '';
-      let sortOrder = 'default';
+      var activeCategory = 'all';
+      var searchQuery = '';
+      var sortOrder = 'default';
 
       function getFiltered() {
-        let list = products.slice();
+        var list = products.slice();
 
         if (activeCategory !== 'all') {
           list = list.filter(function (p) { return p.category === activeCategory; });
         }
 
         if (searchQuery) {
-          const q = searchQuery.toLowerCase();
+          var q = searchQuery.toLowerCase();
           list = list.filter(function (p) {
-            return p.name.toLowerCase().includes(q) ||
-                   p.category.toLowerCase().includes(q) ||
-                   p.description.toLowerCase().includes(q);
+            return p.name.toLowerCase().indexOf(q) !== -1 ||
+                   p.category.toLowerCase().indexOf(q) !== -1 ||
+                   p.description.toLowerCase().indexOf(q) !== -1;
           });
         }
 
@@ -138,45 +139,45 @@
         return list;
       }
 
+      function resetFilters() {
+        activeCategory = 'all';
+        searchQuery = '';
+        sortOrder = 'default';
+        document.getElementById('search-input').value = '';
+        document.getElementById('sort-select').value = 'default';
+        document.querySelectorAll('.filter-btn').forEach(function (b) {
+          b.classList.toggle('active', b.dataset.category === 'all');
+        });
+        renderGrid();
+      }
+
       function renderGrid() {
-        const grid = document.getElementById('products-grid');
-        const countEl = document.getElementById('products-count');
-        const filtered = getFiltered();
+        var grid = document.getElementById('products-grid');
+        var countEl = document.getElementById('products-count');
+        var filtered = getFiltered();
+
+        // Brief fade during re-render
+        grid.classList.add('is-filtering');
+        setTimeout(function () { grid.classList.remove('is-filtering'); }, 150);
 
         countEl.textContent = filtered.length + ' product' + (filtered.length !== 1 ? 's' : '');
 
         if (filtered.length === 0) {
-          grid.innerHTML = '<p class="products-empty">No products match your search.</p>';
+          grid.innerHTML =
+            '<li class="products-empty">' +
+              'No products match your search. ' +
+              '<button class="btn btn-ghost" id="clear-filters-btn" style="font-size:inherit;text-decoration:underline;padding:0;">Clear filters</button>' +
+            '</li>';
+          document.getElementById('clear-filters-btn').addEventListener('click', resetFilters);
           return;
         }
 
-        grid.innerHTML = filtered.map(function (p) {
-          const badgeHtml = p.badge
-            ? '<span class="badge badge-' + p.badge.toLowerCase() + ' product-card-badge">' + p.badge + '</span>'
-            : '';
-          const oldPriceHtml = p.oldPrice
-            ? '<span class="product-card-old-price">' + formatPrice(p.oldPrice) + '</span>'
-            : '';
-          return '<a href="product.html?id=' + p.id + '" class="product-card">' +
-            '<div class="product-card-img-wrap">' +
-              '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy" />' +
-              badgeHtml +
-            '</div>' +
-            '<div class="product-card-body">' +
-              '<span class="product-card-category">' + p.category + '</span>' +
-              '<span class="product-card-name">' + p.name + '</span>' +
-              '<div class="product-card-prices">' +
-                '<span class="product-card-price">' + formatPrice(p.price) + '</span>' +
-                oldPriceHtml +
-              '</div>' +
-            '</div>' +
-          '</a>';
-        }).join('');
+        grid.innerHTML = filtered.map(renderProductCard).join('');
       }
 
       // Category filter
       document.getElementById('category-filters').addEventListener('click', function (e) {
-        const btn = e.target.closest('.filter-btn');
+        var btn = e.target.closest('.filter-btn');
         if (!btn) return;
         document.querySelectorAll('.filter-btn').forEach(function (b) { b.classList.remove('active'); });
         btn.classList.add('active');
