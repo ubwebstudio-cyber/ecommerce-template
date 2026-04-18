@@ -8,6 +8,12 @@
 </head>
 <body>
 
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Blob canvas background -->
+  <canvas id="blob-canvas" aria-hidden="true"></canvas>
+
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="container navbar-inner">
@@ -29,12 +35,16 @@
 
   <!-- HERO -->
   <section class="hero">
+    <!-- Floating blob decorations -->
+    <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
+    <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
+
     <div class="container">
       <p class="hero-label">New Season Collection</p>
-      <h1 class="hero-title">Clean Essentials<br>for Every Day</h1>
+      <h1 class="hero-title">Clean Essentials<br><span id="hero-typewriter"></span><span class="typewriter-cursor" aria-hidden="true">|</span></h1>
       <p class="hero-subtitle">Thoughtfully designed products built for simplicity, quality, and lasting style.</p>
       <div class="hero-actions">
-        <a href="#products" class="btn btn-primary btn-lg">Shop Now</a>
+        <a href="#products" class="btn btn-primary btn-lg btn-glow">Shop Now</a>
         <a href="#products" class="btn btn-outline btn-lg">View All</a>
       </div>
     </div>
@@ -87,8 +97,8 @@
 
       <p class="products-count" id="products-count"></p>
 
-      <!-- Product grid — semantic list -->
-      <ul class="products-grid" id="products-grid"></ul>
+      <!-- Product grid -->
+      <ul class="products-grid" id="products-grid" aria-label="Products"></ul>
 
     </div>
   </section>
@@ -100,6 +110,13 @@
     </div>
   </footer>
 
+  <!-- Back to top -->
+  <button class="back-to-top" aria-label="Back to top" title="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/templates.js"></script>
@@ -107,8 +124,8 @@
   <script>
     (function () {
       var activeCategory = 'all';
-      var searchQuery = '';
-      var sortOrder = 'default';
+      var searchQuery    = '';
+      var sortOrder      = 'default';
 
       function getFiltered() {
         var list = products.slice();
@@ -116,7 +133,6 @@
         if (activeCategory !== 'all') {
           list = list.filter(function (p) { return p.category === activeCategory; });
         }
-
         if (searchQuery) {
           var q = searchQuery.toLowerCase();
           list = list.filter(function (p) {
@@ -125,38 +141,49 @@
                    p.description.toLowerCase().indexOf(q) !== -1;
           });
         }
-
-        if (sortOrder === 'price-asc') {
-          list.sort(function (a, b) { return a.price - b.price; });
-        } else if (sortOrder === 'price-desc') {
-          list.sort(function (a, b) { return b.price - a.price; });
-        } else if (sortOrder === 'name-asc') {
-          list.sort(function (a, b) { return a.name.localeCompare(b.name); });
-        } else if (sortOrder === 'name-desc') {
-          list.sort(function (a, b) { return b.name.localeCompare(a.name); });
-        }
+        if (sortOrder === 'price-asc')  list.sort(function (a, b) { return a.price - b.price; });
+        if (sortOrder === 'price-desc') list.sort(function (a, b) { return b.price - a.price; });
+        if (sortOrder === 'name-asc')   list.sort(function (a, b) { return a.name.localeCompare(b.name); });
+        if (sortOrder === 'name-desc')  list.sort(function (a, b) { return b.name.localeCompare(a.name); });
 
         return list;
       }
 
       function resetFilters() {
         activeCategory = 'all';
-        searchQuery = '';
-        sortOrder = 'default';
-        document.getElementById('search-input').value = '';
-        document.getElementById('sort-select').value = 'default';
+        searchQuery    = '';
+        sortOrder      = 'default';
+        document.getElementById('search-input').value  = '';
+        document.getElementById('sort-select').value   = 'default';
         document.querySelectorAll('.filter-btn').forEach(function (b) {
           b.classList.toggle('active', b.dataset.category === 'all');
         });
         renderGrid();
       }
 
+      function skeletonHTML() {
+        var cards = '';
+        for (var i = 0; i < 8; i++) {
+          cards += '<li class="skeleton-card">' +
+            '<div class="skeleton-img"></div>' +
+            '<div class="skeleton-body">' +
+              '<div class="skeleton-line short"></div>' +
+              '<div class="skeleton-line"></div>' +
+              '<div class="skeleton-line price"></div>' +
+            '</div>' +
+          '</li>';
+        }
+        return cards;
+      }
+
+      var skeletonShown = false;
+
       function renderGrid() {
-        var grid = document.getElementById('products-grid');
-        var countEl = document.getElementById('products-count');
+        var grid     = document.getElementById('products-grid');
+        var countEl  = document.getElementById('products-count');
         var filtered = getFiltered();
 
-        // Brief fade during re-render
+        // Fade animation on re-render
         grid.classList.add('is-filtering');
         setTimeout(function () { grid.classList.remove('is-filtering'); }, 150);
 
@@ -174,6 +201,15 @@
 
         grid.innerHTML = filtered.map(renderProductCard).join('');
       }
+
+      // Initial render: show skeletons for 800ms, then real products
+      var grid = document.getElementById('products-grid');
+      grid.innerHTML = skeletonHTML();
+      document.getElementById('products-count').textContent = '';
+
+      setTimeout(function () {
+        renderGrid();
+      }, 800);
 
       // Category filter
       document.getElementById('category-filters').addEventListener('click', function (e) {
@@ -197,7 +233,6 @@
         renderGrid();
       });
 
-      renderGrid();
     })();
   </script>
 </body>

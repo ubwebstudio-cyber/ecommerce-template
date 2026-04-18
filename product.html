@@ -8,6 +8,12 @@
 </head>
 <body>
 
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Blob canvas background -->
+  <canvas id="blob-canvas" aria-hidden="true"></canvas>
+
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="container navbar-inner">
@@ -53,7 +59,6 @@
       <div class="section-header">
         <h2 class="section-title">You Might Also Like</h2>
       </div>
-      <!-- Related products — semantic list -->
       <ul class="products-grid" id="related-grid"></ul>
     </div>
   </section>
@@ -65,14 +70,21 @@
     </div>
   </footer>
 
+  <!-- Back to top -->
+  <button class="back-to-top" aria-label="Back to top" title="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/templates.js"></script>
   <script src="js/main.js"></script>
   <script>
     (function () {
-      var params = new URLSearchParams(window.location.search);
-      var id = parseInt(params.get('id'), 10);
+      var params  = new URLSearchParams(window.location.search);
+      var id      = parseInt(params.get('id'), 10);
       var product = products.find(function (p) { return p.id === id; });
 
       if (!product) {
@@ -86,40 +98,52 @@
         return;
       }
 
-      // Update page title
       document.title = product.name + ' — SHOP';
       document.getElementById('breadcrumb-name').textContent = product.name;
 
       var selectedSize = product.sizes.length === 1 ? product.sizes[0] : null;
       var quantity = 1;
-      var MAX_QTY = 99;
+      var MAX_QTY  = 99;
+
+      // Ripple helper
+      function addRipple(btn, e) {
+        var rect   = btn.getBoundingClientRect();
+        var size   = Math.max(rect.width, rect.height) * 2;
+        var ripple = document.createElement('span');
+        ripple.className   = 'ripple';
+        ripple.style.width  = size + 'px';
+        ripple.style.height = size + 'px';
+        ripple.style.left   = (e.clientX - rect.left - size / 2) + 'px';
+        ripple.style.top    = (e.clientY - rect.top  - size / 2) + 'px';
+        btn.appendChild(ripple);
+        ripple.addEventListener('animationend', function () { ripple.remove(); });
+      }
 
       function renderDetail() {
-        var badgeHtml = product.badge
+        var badgeHtml    = product.badge
           ? '<span class="badge badge-' + product.badge.toLowerCase() + '">' + product.badge + '</span>'
           : '';
         var oldPriceHtml = product.oldPrice
           ? '<span class="product-detail-old-price">' + formatPrice(product.oldPrice) + '</span>'
           : '';
-        var savingsHtml = product.oldPrice
+        var savingsHtml  = product.oldPrice
           ? '<span class="badge badge-sale" style="margin-left:var(--space-2);">Save ' +
             formatPrice(product.oldPrice - product.price) + '</span>'
           : '';
 
         var sizesHtml = product.sizes.map(function (s) {
-          var isSelected = s === selectedSize ? ' selected' : '';
-          return '<button class="size-btn' + isSelected + '" data-size="' + s + '" aria-pressed="' + (s === selectedSize) + '">' + s + '</button>';
+          var sel = s === selectedSize ? ' selected' : '';
+          return '<button class="size-btn' + sel + '" data-size="' + s + '" ' +
+            'aria-pressed="' + (s === selectedSize) + '">' + s + '</button>';
         }).join('');
 
         document.getElementById('product-detail-content').innerHTML =
           '<div class="product-detail-grid">' +
 
-            // Image
             '<div class="product-detail-img-wrap">' +
               '<img src="' + product.image + '" alt="' + product.name + '" />' +
             '</div>' +
 
-            // Info
             '<div class="product-detail-info">' +
 
               '<div>' +
@@ -137,7 +161,6 @@
 
               '<p class="product-detail-desc">' + product.description + '</p>' +
 
-              // Sizes
               '<div>' +
                 '<div class="product-detail-label">' +
                   '<span>Size</span>' +
@@ -149,7 +172,6 @@
                 '<p class="form-error" id="size-error" aria-live="polite"></p>' +
               '</div>' +
 
-              // Quantity
               '<div>' +
                 '<p class="product-detail-label"><span>Quantity</span></p>' +
                 '<div class="quantity-picker">' +
@@ -159,16 +181,15 @@
                 '</div>' +
               '</div>' +
 
-              // Actions
               '<div class="product-detail-actions">' +
-                '<button class="btn btn-primary btn-lg btn-full" id="add-to-cart-btn">Add to Cart</button>' +
+                '<button class="btn btn-primary btn-lg btn-full" id="add-to-cart-btn" style="position:relative;overflow:hidden;">Add to Cart</button>' +
                 '<a href="cart.html" class="btn btn-outline btn-lg btn-full">View Cart</a>' +
               '</div>' +
 
             '</div>' +
           '</div>';
 
-        // Bind size buttons
+        // Size buttons
         document.getElementById('size-options').addEventListener('click', function (e) {
           var btn = e.target.closest('.size-btn');
           if (!btn) return;
@@ -192,12 +213,9 @@
         });
 
         document.getElementById('qty-plus').addEventListener('click', function () {
-          var input = document.getElementById('qty-input');
+          var input   = document.getElementById('qty-input');
           var current = parseInt(input.value, 10);
-          if (current >= MAX_QTY) {
-            showToast('Maximum quantity is ' + MAX_QTY);
-            return;
-          }
+          if (current >= MAX_QTY) { showToast('Maximum quantity is ' + MAX_QTY); return; }
           var v = Math.min(MAX_QTY, current + 1);
           input.value = v;
           quantity = v;
@@ -211,14 +229,16 @@
           quantity = v;
         });
 
-        // Add to cart
-        document.getElementById('add-to-cart-btn').addEventListener('click', function () {
+        // Add to cart with ripple + fly animation
+        document.getElementById('add-to-cart-btn').addEventListener('click', function (e) {
           if (!selectedSize) {
             document.getElementById('size-error').textContent = 'Please select a size.';
             document.getElementById('size-options').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             return;
           }
+          addRipple(this, e);
           Cart.addItem(product, selectedSize, quantity);
+          flyToCart(this);
           showToast(product.name + ' added to cart!');
         });
       }
@@ -227,9 +247,7 @@
         var related = products.filter(function (p) {
           return p.category === product.category && p.id !== product.id;
         }).slice(0, 4);
-
         if (related.length === 0) return;
-
         document.getElementById('related-section').style.display = '';
         document.getElementById('related-grid').innerHTML = related.map(renderProductCard).join('');
       }

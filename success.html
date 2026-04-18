@@ -8,6 +8,12 @@
 </head>
 <body>
 
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Blob canvas background -->
+  <canvas id="blob-canvas" aria-hidden="true"></canvas>
+
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="container navbar-inner">
@@ -30,7 +36,34 @@
   <main class="success-page">
     <div class="container">
 
-      <div class="success-icon" aria-hidden="true">&#10003;</div>
+      <!-- Animated SVG checkmark -->
+      <div class="success-icon-wrap" aria-hidden="true">
+        <svg class="success-checkmark" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle
+            class="success-checkmark-circle"
+            cx="40" cy="40" r="38"
+            stroke="url(#check-gradient)"
+            stroke-width="3.5"
+            stroke-linecap="round"
+          />
+          <polyline
+            class="success-checkmark-check"
+            points="22,42 34,54 58,28"
+            stroke="url(#check-gradient)"
+            stroke-width="4"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+          <defs>
+            <linearGradient id="check-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%"   stop-color="#10b981" />
+              <stop offset="50%"  stop-color="#34d399" />
+              <stop offset="100%" stop-color="#6ee7b7" />
+            </linearGradient>
+          </defs>
+        </svg>
+        <div class="success-glow" aria-hidden="true"></div>
+      </div>
 
       <h1 class="success-title">Order Confirmed!</h1>
       <p class="success-subtitle">Thank you for your purchase.</p>
@@ -44,7 +77,7 @@
       </p>
 
       <div style="display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap;">
-        <a href="index.html" class="btn btn-primary btn-lg">Back to Shop</a>
+        <a href="index.html" class="btn btn-primary btn-lg btn-glow">Back to Shop</a>
         <a href="index.html#products" class="btn btn-outline btn-lg">Continue Shopping</a>
       </div>
 
@@ -63,15 +96,10 @@
   <script src="js/main.js"></script>
   <script>
     (function () {
-      const params = new URLSearchParams(window.location.search);
-      const order = params.get('order');
-      const el = document.getElementById('order-number');
-      if (order) {
-        el.textContent = order;
-      } else {
-        // Fallback: generate one if page is visited directly
-        el.textContent = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
-      }
+      var params = new URLSearchParams(window.location.search);
+      var order  = params.get('order');
+      var el     = document.getElementById('order-number');
+      el.textContent = order || ('ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase());
     })();
   </script>
 </body>

@@ -8,6 +8,12 @@
 </head>
 <body>
 
+  <!-- Scroll progress bar -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- Blob canvas background -->
+  <canvas id="blob-canvas" aria-hidden="true"></canvas>
+
   <!-- NAVBAR -->
   <nav class="navbar">
     <div class="container navbar-inner">
@@ -67,7 +73,7 @@
             <span id="summary-total">$0.00</span>
           </div>
 
-          <a href="checkout.html" class="btn btn-primary btn-lg btn-full" id="checkout-btn">
+          <a href="checkout.html" class="btn btn-primary btn-lg btn-full btn-checkout" id="checkout-btn">
             Proceed to Checkout
           </a>
 
@@ -90,43 +96,51 @@
     </div>
   </footer>
 
+  <!-- Back to top -->
+  <button class="back-to-top" aria-label="Back to top" title="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15"/>
+    </svg>
+  </button>
+
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
   <script>
     (function () {
-      function renderCart() {
-        const cartItems = Cart.getCart();
-        const countEl = document.getElementById('cart-item-count');
-        const emptyEl = document.getElementById('cart-empty');
-        const contentEl = document.getElementById('cart-content');
-        const itemsEl = document.getElementById('cart-items');
-        const subtotalEl = document.getElementById('summary-subtotal');
-        const totalEl = document.getElementById('summary-total');
-        const shippingEl = document.getElementById('summary-shipping');
 
-        const total = Cart.getCount();
+      function updateSummary() {
+        var cartItems   = Cart.getCart();
+        var subtotal    = Cart.getSubtotal();
+        var shippingFree = subtotal >= 75;
+        var shippingCost = shippingFree ? 0 : 7.99;
+
+        document.getElementById('summary-subtotal').textContent = formatPrice(subtotal);
+        document.getElementById('summary-shipping').textContent = shippingFree ? 'Free' : formatPrice(shippingCost);
+        document.getElementById('summary-total').textContent    = formatPrice(subtotal + shippingCost);
+      }
+
+      function renderCart() {
+        var cartItems  = Cart.getCart();
+        var countEl    = document.getElementById('cart-item-count');
+        var emptyEl    = document.getElementById('cart-empty');
+        var contentEl  = document.getElementById('cart-content');
+        var itemsEl    = document.getElementById('cart-items');
+
+        var total = Cart.getCount();
         countEl.textContent = total + ' item' + (total !== 1 ? 's' : '');
 
         if (cartItems.length === 0) {
-          emptyEl.style.display = '';
+          emptyEl.style.display  = '';
           contentEl.style.display = 'none';
           return;
         }
 
-        emptyEl.style.display = 'none';
+        emptyEl.style.display  = 'none';
         contentEl.style.display = '';
 
-        const subtotal = Cart.getSubtotal();
-        const shippingFree = subtotal >= 75;
-        const shippingCost = shippingFree ? 0 : 7.99;
-
-        subtotalEl.textContent = formatPrice(subtotal);
-        shippingEl.textContent = shippingFree ? 'Free' : formatPrice(shippingCost);
-        totalEl.textContent = formatPrice(subtotal + shippingCost);
-
-        itemsEl.innerHTML = cartItems.map(function (item) {
-          return '<li class="cart-item" data-key="' + item.key + '">' +
+        itemsEl.innerHTML = cartItems.map(function (item, idx) {
+          return '<li class="cart-item" data-key="' + item.key + '" style="animation-delay:' + (idx * 0.06) + 's">' +
 
             '<img class="cart-item-img" src="' + item.image + '" alt="' + item.name + '" />' +
 
@@ -149,34 +163,49 @@
 
           '</li>';
         }).join('');
+
+        updateSummary();
+      }
+
+      function removeWithAnimation(key) {
+        var li = document.querySelector('.cart-item[data-key="' + key + '"]');
+        if (li) {
+          li.classList.add('removing');
+          setTimeout(function () {
+            Cart.removeItem(key);
+            renderCart();
+          }, 300);
+        } else {
+          Cart.removeItem(key);
+          renderCart();
+        }
       }
 
       // Delegate events on the items list
       document.getElementById('cart-items').addEventListener('click', function (e) {
-        const key = e.target.dataset.key;
+        var key = e.target.dataset.key;
         if (!key) return;
 
         if (e.target.classList.contains('cart-remove-btn')) {
-          Cart.removeItem(key);
-          renderCart();
+          removeWithAnimation(key);
           return;
         }
 
         if (e.target.dataset.action === 'minus') {
-          const item = Cart.getCart().find(function (i) { return i.key === key; });
+          var item = Cart.getCart().find(function (i) { return i.key === key; });
           if (item) {
             if (item.quantity <= 1) {
-              Cart.removeItem(key);
+              removeWithAnimation(key);
             } else {
               Cart.updateQuantity(key, item.quantity - 1);
+              renderCart();
             }
-            renderCart();
           }
           return;
         }
 
         if (e.target.dataset.action === 'plus') {
-          const item = Cart.getCart().find(function (i) { return i.key === key; });
+          var item = Cart.getCart().find(function (i) { return i.key === key; });
           if (item) {
             Cart.updateQuantity(key, item.quantity + 1);
             renderCart();
@@ -186,14 +215,14 @@
 
       document.getElementById('cart-items').addEventListener('change', function (e) {
         if (!e.target.classList.contains('cart-qty-input')) return;
-        const key = e.target.dataset.key;
-        const val = parseInt(e.target.value, 10);
+        var key = e.target.dataset.key;
+        var val = parseInt(e.target.value, 10);
         if (val < 1) {
-          Cart.removeItem(key);
+          removeWithAnimation(key);
         } else {
           Cart.updateQuantity(key, val);
+          renderCart();
         }
-        renderCart();
       });
 
       renderCart();

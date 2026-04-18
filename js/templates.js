@@ -9,7 +9,7 @@ function renderProductCard(p) {
     ? '<span class="product-card-old-price">' + formatPrice(p.oldPrice) + '</span>'
     : '';
   return '<li>' +
-    '<a href="product.html?id=' + p.id + '" class="product-card">' +
+    '<a href="product.html?id=' + p.id + '" class="product-card" data-category="' + p.category + '">' +
       '<div class="product-card-img-wrap">' +
         '<img src="' + p.image + '" alt="' + p.name + '" loading="lazy" />' +
         badge +
