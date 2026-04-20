@@ -25,28 +25,35 @@
   <nav class="navbar">
     <div class="container navbar-inner">
       <a href="index.html" class="navbar-logo">SHOP</a>
-      <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">
-        <svg class="theme-icon theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="theme-icon theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      </button>
       <ul class="navbar-links" id="navbar-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="index.html#products">Shop</a></li>
-        <li>
-          <a href="cart.html" class="cart-link">
-            Cart <span class="cart-badge" id="cart-count">0</span>
-          </a>
-        </li>
       </ul>
+      <div class="navbar-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <svg class="theme-icon theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="theme-icon theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="cart-icon-btn" id="cart-icon-btn" aria-label="Open cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </nav>
 
   <!-- PRODUCT DETAIL -->
   <div class="product-detail">
     <div class="container">
+
+      <!-- Back button -->
+      <a class="back-btn" id="back-btn" href="index.html#products" data-fallback="index.html#products" aria-label="Back to Shop">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        Back to Shop
+      </a>
 
       <!-- Breadcrumb -->
       <nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb">
@@ -88,6 +95,31 @@
     </svg>
   </button>
 
+  <!-- CART PANEL -->
+  <div class="cart-overlay" id="cart-overlay" aria-hidden="true"></div>
+  <aside class="cart-panel" id="cart-panel" role="dialog" aria-label="Shopping cart" aria-modal="true">
+    <div class="cart-panel-header">
+      <h2 class="cart-panel-title">Cart <span class="cart-panel-count"></span></h2>
+      <button class="cart-panel-close" id="cart-panel-close" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-panel-body">
+      <div class="cart-panel-empty" id="cart-panel-empty" style="display:none;">
+        <div class="cart-panel-empty-icon">🛍️</div>
+        <p>Your cart is empty</p>
+        <a href="index.html#products" class="btn btn-primary">Start Shopping</a>
+      </div>
+      <ul class="cart-items" id="cart-panel-items" aria-label="Cart items"></ul>
+    </div>
+    <div class="cart-panel-footer" id="cart-panel-footer" style="display:none;">
+      <div class="order-summary-line"><span>Subtotal</span><span id="panel-subtotal">—</span></div>
+      <div class="order-summary-line"><span>Shipping</span><span id="panel-shipping">—</span></div>
+      <div class="order-summary-line total"><span>Total</span><span id="panel-total">—</span></div>
+      <button class="btn btn-primary btn-lg btn-full btn-checkout" id="panel-checkout-btn">Checkout</button>
+      <button class="btn btn-ghost btn-full" id="panel-continue-btn">← Continue Shopping</button>
+      <p class="shipping-note">Free shipping on orders over $75</p>
+    </div>
+  </aside>
+
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/templates.js"></script>
@@ -98,9 +130,15 @@
       var id      = parseInt(params.get('id'), 10);
       var product = products.find(function (p) { return p.id === id; });
 
+      // Store referrer for back button
+      sessionStorage.setItem('shop-prev', document.referrer && document.referrer.indexOf('index') !== -1
+        ? 'index.html#products'
+        : 'index.html#products');
+
       if (!product) {
         window.scrollTo(0, 0);
         document.getElementById('breadcrumb').style.display = 'none';
+        document.getElementById('back-btn').style.display   = 'none';
         document.getElementById('product-detail-content').innerHTML =
           '<div style="text-align:center;padding:var(--space-20) 0;">' +
           '<h2 style="font-size:var(--font-size-2xl);margin-bottom:var(--space-4);">Product not found</h2>' +
@@ -116,7 +154,6 @@
       var quantity = 1;
       var MAX_QTY  = 99;
 
-      // Ripple helper
       function addRipple(btn, e) {
         var rect   = btn.getBoundingClientRect();
         var size   = Math.max(rect.width, rect.height) * 2;
@@ -138,51 +175,37 @@
           ? '<span class="product-detail-old-price">' + formatPrice(product.oldPrice) + '</span>'
           : '';
         var savingsHtml  = product.oldPrice
-          ? '<span class="badge badge-sale" style="margin-left:var(--space-2);">Save ' +
-            formatPrice(product.oldPrice - product.price) + '</span>'
+          ? '<span class="badge badge-sale" style="margin-left:var(--space-2);">Save ' + formatPrice(product.oldPrice - product.price) + '</span>'
           : '';
-
         var sizesHtml = product.sizes.map(function (s) {
           var sel = s === selectedSize ? ' selected' : '';
-          return '<button class="size-btn' + sel + '" data-size="' + s + '" ' +
-            'aria-pressed="' + (s === selectedSize) + '">' + s + '</button>';
+          return '<button class="size-btn' + sel + '" data-size="' + s + '" aria-pressed="' + (s === selectedSize) + '">' + s + '</button>';
         }).join('');
 
         document.getElementById('product-detail-content').innerHTML =
           '<div class="product-detail-grid">' +
-
             '<div class="product-detail-img-wrap">' +
               '<img src="' + product.image + '" alt="' + product.name + '" />' +
             '</div>' +
-
             '<div class="product-detail-info">' +
-
               '<div>' +
                 '<p class="product-detail-category">' + product.category + '</p>' +
                 (badgeHtml ? '<div style="margin-top:var(--space-2);">' + badgeHtml + '</div>' : '') +
               '</div>' +
-
               '<h1 class="product-detail-name">' + product.name + '</h1>' +
-
               '<div class="product-detail-prices">' +
                 '<span class="product-detail-price">' + formatPrice(product.price) + '</span>' +
-                oldPriceHtml +
-                savingsHtml +
+                oldPriceHtml + savingsHtml +
               '</div>' +
-
               '<p class="product-detail-desc">' + product.description + '</p>' +
-
               '<div>' +
                 '<div class="product-detail-label">' +
                   '<span>Size</span>' +
-                  '<span class="selected-size-display" id="selected-size-display">' +
-                    (selectedSize || 'Select a size') +
-                  '</span>' +
+                  '<span class="selected-size-display" id="selected-size-display">' + (selectedSize || 'Select a size') + '</span>' +
                 '</div>' +
                 '<div class="size-options" id="size-options" role="group" aria-label="Select size">' + sizesHtml + '</div>' +
                 '<p class="form-error" id="size-error" aria-live="polite"></p>' +
               '</div>' +
-
               '<div>' +
                 '<p class="product-detail-label"><span>Quantity</span></p>' +
                 '<div class="quantity-picker">' +
@@ -191,12 +214,10 @@
                   '<button class="qty-btn" id="qty-plus" aria-label="Increase quantity">+</button>' +
                 '</div>' +
               '</div>' +
-
               '<div class="product-detail-actions">' +
                 '<button class="btn btn-primary btn-lg btn-full" id="add-to-cart-btn" style="position:relative;overflow:hidden;">Add to Cart</button>' +
-                '<a href="cart.html" class="btn btn-outline btn-lg btn-full">View Cart</a>' +
+                '<button class="btn btn-outline btn-lg btn-full" id="view-cart-btn">View Cart</button>' +
               '</div>' +
-
             '</div>' +
           '</div>';
 
@@ -219,8 +240,7 @@
         document.getElementById('qty-minus').addEventListener('click', function () {
           var input = document.getElementById('qty-input');
           var v = Math.max(1, parseInt(input.value, 10) - 1);
-          input.value = v;
-          quantity = v;
+          input.value = v; quantity = v;
         });
 
         document.getElementById('qty-plus').addEventListener('click', function () {
@@ -228,19 +248,17 @@
           var current = parseInt(input.value, 10);
           if (current >= MAX_QTY) { showToast('Maximum quantity is ' + MAX_QTY); return; }
           var v = Math.min(MAX_QTY, current + 1);
-          input.value = v;
-          quantity = v;
+          input.value = v; quantity = v;
         });
 
         document.getElementById('qty-input').addEventListener('input', function (e) {
           var raw = parseInt(e.target.value, 10) || 1;
           if (raw > MAX_QTY) showToast('Maximum quantity is ' + MAX_QTY);
           var v = Math.max(1, Math.min(MAX_QTY, raw));
-          e.target.value = v;
-          quantity = v;
+          e.target.value = v; quantity = v;
         });
 
-        // Add to cart with ripple + fly animation
+        // Add to cart
         document.getElementById('add-to-cart-btn').addEventListener('click', function (e) {
           if (!selectedSize) {
             document.getElementById('size-error').textContent = 'Please select a size.';
@@ -251,6 +269,11 @@
           Cart.addItem(product, selectedSize, quantity);
           flyToCart(this);
           showToast(product.name + ' added to cart!');
+        });
+
+        // View Cart → open panel
+        document.getElementById('view-cart-btn').addEventListener('click', function () {
+          if (window._openCartPanel) window._openCartPanel();
         });
       }
 

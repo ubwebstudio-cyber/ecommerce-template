@@ -16,7 +16,7 @@
 <body>
 
   <!-- Scroll progress bar -->
-  <div class="scroll-progress" id="scroll-progress" aria-hidden="true"></div>
+  <div class="scroll-progress" aria-hidden="true"></div>
 
   <!-- Blob canvas background -->
   <canvas id="blob-canvas" aria-hidden="true"></canvas>
@@ -25,38 +25,38 @@
   <nav class="navbar">
     <div class="container navbar-inner">
       <a href="index.html" class="navbar-logo">SHOP</a>
-      <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">
-        <svg class="theme-icon theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="theme-icon theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      </button>
       <ul class="navbar-links" id="navbar-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="#products">Shop</a></li>
-        <li>
-          <a href="cart.html" class="cart-link">
-            Cart <span class="cart-badge" id="cart-count">0</span>
-          </a>
-        </li>
       </ul>
+      <div class="navbar-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <svg class="theme-icon theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="theme-icon theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="cart-icon-btn" id="cart-icon-btn" aria-label="Open cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </nav>
 
   <!-- HERO -->
   <section class="hero">
-    <!-- Floating blob decorations -->
     <div class="hero-blob hero-blob-1" aria-hidden="true"></div>
     <div class="hero-blob hero-blob-2" aria-hidden="true"></div>
-
     <div class="container">
-      <p class="hero-label">New Season Collection</p>
-      <h1 class="hero-title">Clean Essentials<br><span id="hero-typewriter"></span><span class="typewriter-cursor" aria-hidden="true">|</span></h1>
-      <p class="hero-subtitle">Thoughtfully designed products built for simplicity, quality, and lasting style.</p>
-      <div class="hero-actions">
-        <a href="#products" class="btn btn-primary btn-lg btn-glow">Shop Now</a>
-        <a href="#products" class="btn btn-outline btn-lg">View All</a>
+      <div class="hero-content-scrim">
+        <p class="hero-label">New Season Collection</p>
+        <h1 class="hero-title">Clean Essentials<br><span id="hero-typewriter"></span><span class="typewriter-cursor" aria-hidden="true">|</span></h1>
+        <p class="hero-subtitle">Thoughtfully designed products built for simplicity, quality, and lasting style.</p>
+        <div class="hero-actions">
+          <a href="#products" class="btn btn-primary btn-lg btn-glow">Shop Now</a>
+        </div>
       </div>
     </div>
   </section>
@@ -78,13 +78,7 @@
               <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
             </svg>
           </span>
-          <input
-            type="search"
-            id="search-input"
-            class="search-input"
-            placeholder="Search products…"
-            aria-label="Search products"
-          />
+          <input type="search" id="search-input" class="search-input" placeholder="Search products…" aria-label="Search products" />
         </div>
         <div class="sort-select-wrapper">
           <select id="sort-select" class="sort-select" aria-label="Sort products">
@@ -114,6 +108,45 @@
     </div>
   </section>
 
+  <!-- LOOKBOOK -->
+  <section class="lookbook">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="section-title">Collections</h2>
+        <p class="section-subtitle">Curated seasonal edits, thoughtfully assembled.</p>
+      </div>
+      <div class="lookbook-grid">
+        <div class="lookbook-card">
+          <div class="lookbook-card-bg" style="background: linear-gradient(135deg, #c4b5fd 0%, #a78bfa 40%, #7c3aed 100%);"></div>
+          <div class="lookbook-card-scrim"></div>
+          <div class="lookbook-card-body">
+            <span class="lookbook-season">SS 2025</span>
+            <h3 class="lookbook-title">Essential Everyday</h3>
+            <a href="#products" class="lookbook-link">Shop Collection →</a>
+          </div>
+        </div>
+        <div class="lookbook-card">
+          <div class="lookbook-card-bg" style="background: linear-gradient(135deg, #fde68a 0%, #fca5a5 50%, #f472b6 100%);"></div>
+          <div class="lookbook-card-scrim"></div>
+          <div class="lookbook-card-body">
+            <span class="lookbook-season">AW 2025</span>
+            <h3 class="lookbook-title">The Work Edit</h3>
+            <a href="#products" class="lookbook-link">Shop Collection →</a>
+          </div>
+        </div>
+        <div class="lookbook-card">
+          <div class="lookbook-card-bg" style="background: linear-gradient(135deg, #6ee7b7 0%, #34d399 40%, #059669 100%);"></div>
+          <div class="lookbook-card-scrim"></div>
+          <div class="lookbook-card-body">
+            <span class="lookbook-season">Resort 2025</span>
+            <h3 class="lookbook-title">Weekend Uniform</h3>
+            <a href="#products" class="lookbook-link">Shop Collection →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="container">
@@ -128,6 +161,31 @@
     </svg>
   </button>
 
+  <!-- CART PANEL -->
+  <div class="cart-overlay" id="cart-overlay" aria-hidden="true"></div>
+  <aside class="cart-panel" id="cart-panel" role="dialog" aria-label="Shopping cart" aria-modal="true">
+    <div class="cart-panel-header">
+      <h2 class="cart-panel-title">Cart <span class="cart-panel-count"></span></h2>
+      <button class="cart-panel-close" id="cart-panel-close" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-panel-body">
+      <div class="cart-panel-empty" id="cart-panel-empty" style="display:none;">
+        <div class="cart-panel-empty-icon">🛍️</div>
+        <p>Your cart is empty</p>
+        <a href="#products" class="btn btn-primary">Start Shopping</a>
+      </div>
+      <ul class="cart-items" id="cart-panel-items" aria-label="Cart items"></ul>
+    </div>
+    <div class="cart-panel-footer" id="cart-panel-footer" style="display:none;">
+      <div class="order-summary-line"><span>Subtotal</span><span id="panel-subtotal">—</span></div>
+      <div class="order-summary-line"><span>Shipping</span><span id="panel-shipping">—</span></div>
+      <div class="order-summary-line total"><span>Total</span><span id="panel-total">—</span></div>
+      <button class="btn btn-primary btn-lg btn-full btn-checkout" id="panel-checkout-btn">Checkout</button>
+      <button class="btn btn-ghost btn-full" id="panel-continue-btn">← Continue Shopping</button>
+      <p class="shipping-note">Free shipping on orders over $75</p>
+    </div>
+  </aside>
+
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/templates.js"></script>
@@ -140,7 +198,6 @@
 
       function getFiltered() {
         var list = products.slice();
-
         if (activeCategory !== 'all') {
           list = list.filter(function (p) { return p.category === activeCategory; });
         }
@@ -156,16 +213,13 @@
         if (sortOrder === 'price-desc') list.sort(function (a, b) { return b.price - a.price; });
         if (sortOrder === 'name-asc')   list.sort(function (a, b) { return a.name.localeCompare(b.name); });
         if (sortOrder === 'name-desc')  list.sort(function (a, b) { return b.name.localeCompare(a.name); });
-
         return list;
       }
 
       function resetFilters() {
-        activeCategory = 'all';
-        searchQuery    = '';
-        sortOrder      = 'default';
-        document.getElementById('search-input').value  = '';
-        document.getElementById('sort-select').value   = 'default';
+        activeCategory = 'all'; searchQuery = ''; sortOrder = 'default';
+        document.getElementById('search-input').value = '';
+        document.getElementById('sort-select').value  = 'default';
         document.querySelectorAll('.filter-btn').forEach(function (b) {
           b.classList.toggle('active', b.dataset.category === 'all');
         });
@@ -175,54 +229,31 @@
       function skeletonHTML() {
         var cards = '';
         for (var i = 0; i < 8; i++) {
-          cards += '<li class="skeleton-card">' +
-            '<div class="skeleton-img"></div>' +
-            '<div class="skeleton-body">' +
-              '<div class="skeleton-line short"></div>' +
-              '<div class="skeleton-line"></div>' +
-              '<div class="skeleton-line price"></div>' +
-            '</div>' +
-          '</li>';
+          cards += '<li class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line"></div><div class="skeleton-line price"></div></div></li>';
         }
         return cards;
       }
-
-      var skeletonShown = false;
 
       function renderGrid() {
         var grid     = document.getElementById('products-grid');
         var countEl  = document.getElementById('products-count');
         var filtered = getFiltered();
-
-        // Fade animation on re-render
         grid.classList.add('is-filtering');
         setTimeout(function () { grid.classList.remove('is-filtering'); }, 150);
-
         countEl.textContent = filtered.length + ' product' + (filtered.length !== 1 ? 's' : '');
-
         if (filtered.length === 0) {
-          grid.innerHTML =
-            '<li class="products-empty">' +
-              'No products match your search. ' +
-              '<button class="btn btn-ghost" id="clear-filters-btn" style="font-size:inherit;text-decoration:underline;padding:0;">Clear filters</button>' +
-            '</li>';
+          grid.innerHTML = '<li class="products-empty">No products match your search. <button class="btn btn-ghost" id="clear-filters-btn" style="font-size:inherit;text-decoration:underline;padding:0;">Clear filters</button></li>';
           document.getElementById('clear-filters-btn').addEventListener('click', resetFilters);
           return;
         }
-
         grid.innerHTML = filtered.map(renderProductCard).join('');
       }
 
-      // Initial render: show skeletons for 800ms, then real products
       var grid = document.getElementById('products-grid');
       grid.innerHTML = skeletonHTML();
       document.getElementById('products-count').textContent = '';
+      setTimeout(function () { renderGrid(); }, 800);
 
-      setTimeout(function () {
-        renderGrid();
-      }, 800);
-
-      // Category filter
       document.getElementById('category-filters').addEventListener('click', function (e) {
         var btn = e.target.closest('.filter-btn');
         if (!btn) return;
@@ -232,18 +263,15 @@
         renderGrid();
       });
 
-      // Search
       document.getElementById('search-input').addEventListener('input', function (e) {
         searchQuery = e.target.value.trim();
         renderGrid();
       });
 
-      // Sort
       document.getElementById('sort-select').addEventListener('change', function (e) {
         sortOrder = e.target.value;
         renderGrid();
       });
-
     })();
   </script>
 </body>

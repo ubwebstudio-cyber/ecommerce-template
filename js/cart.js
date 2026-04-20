@@ -65,11 +65,15 @@ const Cart = (() => {
   }
 
   function updateCartBadge() {
+    const count = getCount();
     const badge = document.getElementById('cart-count');
     if (badge) {
-      const count = getCount();
       badge.textContent = count;
       badge.style.display = count > 0 ? 'flex' : 'none';
+    }
+    const btn = document.getElementById('cart-icon-btn');
+    if (btn) {
+      btn.setAttribute('aria-label', 'Open cart (' + count + ' item' + (count !== 1 ? 's' : '') + ')');
     }
   }
 

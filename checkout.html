@@ -25,22 +25,23 @@
   <nav class="navbar">
     <div class="container navbar-inner">
       <a href="index.html" class="navbar-logo">SHOP</a>
-      <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">
-        <svg class="theme-icon theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="theme-icon theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      </button>
       <ul class="navbar-links" id="navbar-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="index.html#products">Shop</a></li>
-        <li>
-          <a href="cart.html" class="cart-link">
-            Cart <span class="cart-badge" id="cart-count">0</span>
-          </a>
-        </li>
       </ul>
+      <div class="navbar-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <svg class="theme-icon theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="theme-icon theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="cart-icon-btn" id="cart-icon-btn" aria-label="Open cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -48,33 +49,33 @@
     <div class="container">
 
       <div class="page-header" style="padding-top:var(--space-6);margin-bottom:var(--space-6);">
+        <!-- Back button -->
+        <a class="back-btn" id="back-btn" href="index.html" data-fallback="index.html" aria-label="Go back">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+          Back
+        </a>
         <h1 class="page-title">Checkout</h1>
       </div>
 
-      <!-- 4-step progress bar -->
+      <!-- 3-step progress bar -->
       <div class="checkout-progress" aria-label="Checkout steps">
-        <div class="checkout-step done">
-          <div class="checkout-step-dot" aria-hidden="true">✓</div>
-          <span class="checkout-step-label">Cart</span>
+        <div class="checkout-step active" id="step-dot-1">
+          <div class="checkout-step-dot">1</div>
+          <span class="checkout-step-label">Contact</span>
         </div>
-        <div class="checkout-step-line"></div>
-        <div class="checkout-step active">
-          <div class="checkout-step-dot" aria-hidden="true">2</div>
-          <span class="checkout-step-label">Details</span>
-        </div>
-        <div class="checkout-step-line"></div>
-        <div class="checkout-step">
-          <div class="checkout-step-dot" aria-hidden="true">3</div>
+        <div class="checkout-step-line" id="step-line-1"></div>
+        <div class="checkout-step" id="step-dot-2">
+          <div class="checkout-step-dot">2</div>
           <span class="checkout-step-label">Shipping</span>
         </div>
-        <div class="checkout-step-line"></div>
-        <div class="checkout-step">
-          <div class="checkout-step-dot" aria-hidden="true">4</div>
-          <span class="checkout-step-label">Confirm</span>
+        <div class="checkout-step-line" id="step-line-2"></div>
+        <div class="checkout-step" id="step-dot-3">
+          <div class="checkout-step-dot">3</div>
+          <span class="checkout-step-label">Payment</span>
         </div>
       </div>
 
-      <!-- Empty cart redirect notice -->
+      <!-- Empty cart notice -->
       <div id="checkout-empty" style="display:none;text-align:center;padding:var(--space-20) 0;">
         <h2 style="font-size:var(--font-size-2xl);margin-bottom:var(--space-4);">Your cart is empty</h2>
         <a href="index.html#products" class="btn btn-primary btn-lg">Start Shopping</a>
@@ -82,111 +83,147 @@
 
       <div id="checkout-layout" class="checkout-layout">
 
-        <!-- LEFT: Form -->
+        <!-- LEFT: Wizard form -->
         <div class="checkout-form-section">
 
-          <form id="checkout-form" novalidate>
+          <!-- STEP 1: Contact -->
+          <div class="checkout-step-section active-step" id="checkout-step-1">
+            <h2 class="form-section-title">Contact Information</h2>
+            <div class="form-fields">
+              <div class="form-row cols-2">
+                <div class="form-group" id="group-first-name">
+                  <label class="form-label" for="first-name">First Name<span class="required-star" aria-hidden="true">*</span></label>
+                  <input type="text" id="first-name" name="firstName" class="form-input" autocomplete="given-name" />
+                  <span class="form-error" id="err-first-name" aria-live="polite"></span>
+                </div>
+                <div class="form-group" id="group-last-name">
+                  <label class="form-label" for="last-name">Last Name<span class="required-star" aria-hidden="true">*</span></label>
+                  <input type="text" id="last-name" name="lastName" class="form-input" autocomplete="family-name" />
+                  <span class="form-error" id="err-last-name" aria-live="polite"></span>
+                </div>
+              </div>
+              <div class="form-group" id="group-email">
+                <label class="form-label" for="email">Email Address<span class="required-star" aria-hidden="true">*</span></label>
+                <input type="email" id="email" name="email" class="form-input" autocomplete="email" />
+                <span class="form-error" id="err-email" aria-live="polite"></span>
+              </div>
+              <div class="form-group" id="group-phone">
+                <label class="form-label" for="phone">Phone <span style="font-weight:400;color:var(--color-text-muted);">(optional)</span></label>
+                <input type="tel" id="phone" name="phone" class="form-input" autocomplete="tel" />
+                <span class="form-error" id="err-phone" aria-live="polite"></span>
+              </div>
+            </div>
+            <div class="checkout-step-nav">
+              <button class="btn btn-primary btn-lg" id="step1-next">Continue to Shipping →</button>
+            </div>
+          </div>
 
-            <!-- Contact info -->
-            <div>
-              <h2 class="form-section-title">Contact Information</h2>
-              <div class="form-fields">
-                <div class="form-row cols-2">
-                  <div class="form-group">
-                    <label class="form-label" for="first-name">First Name<span class="required-star" aria-hidden="true">*</span></label>
-                    <input type="text" id="first-name" name="firstName" class="form-input" autocomplete="given-name" aria-required="true" aria-describedby="err-first-name" />
-                    <span class="form-error" id="err-first-name" aria-live="polite"></span>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label" for="last-name">Last Name<span class="required-star" aria-hidden="true">*</span></label>
-                    <input type="text" id="last-name" name="lastName" class="form-input" autocomplete="family-name" aria-required="true" aria-describedby="err-last-name" />
-                    <span class="form-error" id="err-last-name" aria-live="polite"></span>
-                  </div>
+          <!-- STEP 2: Shipping -->
+          <div class="checkout-step-section" id="checkout-step-2">
+            <h2 class="form-section-title">Shipping Address</h2>
+            <div class="form-fields">
+              <div class="form-group" id="group-address">
+                <label class="form-label" for="address">Street Address<span class="required-star" aria-hidden="true">*</span></label>
+                <input type="text" id="address" name="address" class="form-input" autocomplete="street-address" />
+                <span class="form-error" id="err-address" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="address2">Apartment, suite, etc. <span style="font-weight:400;color:var(--color-text-muted);">(optional)</span></label>
+                <input type="text" id="address2" name="address2" class="form-input" autocomplete="address-line2" />
+              </div>
+              <div class="form-row cols-2">
+                <div class="form-group" id="group-city">
+                  <label class="form-label" for="city">City<span class="required-star" aria-hidden="true">*</span></label>
+                  <input type="text" id="city" name="city" class="form-input" autocomplete="address-level2" />
+                  <span class="form-error" id="err-city" aria-live="polite"></span>
                 </div>
-                <div class="form-group">
-                  <label class="form-label" for="email">Email Address<span class="required-star" aria-hidden="true">*</span></label>
-                  <input type="email" id="email" name="email" class="form-input" autocomplete="email" aria-required="true" aria-describedby="err-email" />
-                  <span class="form-error" id="err-email" aria-live="polite"></span>
+                <div class="form-group" id="group-zip">
+                  <label class="form-label" for="zip">ZIP / Postal Code<span class="required-star" aria-hidden="true">*</span></label>
+                  <input type="text" id="zip" name="zip" class="form-input" autocomplete="postal-code" />
+                  <span class="form-error" id="err-zip" aria-live="polite"></span>
                 </div>
-                <div class="form-group">
-                  <label class="form-label" for="phone">Phone Number <span style="font-weight:400;color:var(--color-text-muted);">(optional)</span></label>
-                  <input type="tel" id="phone" name="phone" class="form-input" autocomplete="tel" />
+              </div>
+              <div class="form-group" id="group-country">
+                <label class="form-label" for="country">Country<span class="required-star" aria-hidden="true">*</span></label>
+                <div class="form-select-wrapper">
+                  <select id="country" name="country" class="form-select" autocomplete="country">
+                    <option value="">Select a country…</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="GB">United Kingdom</option>
+                    <option value="AU">Australia</option>
+                    <option value="DE">Germany</option>
+                    <option value="FR">France</option>
+                    <option value="JP">Japan</option>
+                    <option value="other">Other</option>
+                  </select>
                 </div>
+                <span class="form-error" id="err-country" aria-live="polite"></span>
               </div>
             </div>
 
-            <!-- Shipping address -->
-            <div>
-              <h2 class="form-section-title">Shipping Address</h2>
-              <div class="form-fields">
-                <div class="form-group">
-                  <label class="form-label" for="address">Street Address<span class="required-star" aria-hidden="true">*</span></label>
-                  <input type="text" id="address" name="address" class="form-input" autocomplete="street-address" aria-required="true" aria-describedby="err-address" />
-                  <span class="form-error" id="err-address" aria-live="polite"></span>
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="address2">Apartment, suite, etc. <span style="font-weight:400;color:var(--color-text-muted);">(optional)</span></label>
-                  <input type="text" id="address2" name="address2" class="form-input" autocomplete="address-line2" />
-                </div>
-                <div class="form-row cols-2">
-                  <div class="form-group">
-                    <label class="form-label" for="city">City<span class="required-star" aria-hidden="true">*</span></label>
-                    <input type="text" id="city" name="city" class="form-input" autocomplete="address-level2" aria-required="true" aria-describedby="err-city" />
-                    <span class="form-error" id="err-city" aria-live="polite"></span>
-                  </div>
-                  <div class="form-group">
-                    <label class="form-label" for="zip">ZIP / Postal Code<span class="required-star" aria-hidden="true">*</span></label>
-                    <input type="text" id="zip" name="zip" class="form-input" autocomplete="postal-code" aria-required="true" aria-describedby="err-zip" />
-                    <span class="form-error" id="err-zip" aria-live="polite"></span>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="country">Country<span class="required-star" aria-hidden="true">*</span></label>
-                  <div class="form-select-wrapper">
-                    <select id="country" name="country" class="form-select" autocomplete="country" aria-required="true" aria-describedby="err-country">
-                      <option value="">Select a country…</option>
-                      <option value="US">United States</option>
-                      <option value="CA">Canada</option>
-                      <option value="GB">United Kingdom</option>
-                      <option value="AU">Australia</option>
-                      <option value="DE">Germany</option>
-                      <option value="FR">France</option>
-                      <option value="JP">Japan</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-                  <span class="form-error" id="err-country" aria-live="polite"></span>
-                </div>
-              </div>
+            <h2 class="form-section-title" style="margin-top:var(--space-8);">Shipping Method</h2>
+            <div class="form-fields">
+              <label class="shipping-option">
+                <input type="radio" name="shipping" value="standard" checked style="accent-color:#a78bfa;" />
+                <span>
+                  <strong>Standard Shipping</strong> — 5–7 business days
+                  <span id="standard-price" style="margin-left:var(--space-2);color:var(--color-text-muted);"></span>
+                </span>
+              </label>
+              <label class="shipping-option">
+                <input type="radio" name="shipping" value="express" style="accent-color:#a78bfa;" />
+                <span>
+                  <strong>Express Shipping</strong> — 1–3 business days
+                  <span style="margin-left:var(--space-2);color:var(--color-text-muted);">$14.99</span>
+                </span>
+              </label>
             </div>
-
-            <!-- Shipping method -->
-            <div>
-              <h2 class="form-section-title">Shipping Method</h2>
-              <div class="form-fields">
-                <label style="display:flex;align-items:center;gap:var(--space-3);padding:var(--space-4);border:1px solid var(--color-border);border-radius:var(--radius);cursor:pointer;background:rgba(255,255,255,0.6);backdrop-filter:blur(6px);">
-                  <input type="radio" name="shipping" value="standard" checked style="accent-color:var(--color-accent);" />
-                  <span>
-                    <strong>Standard Shipping</strong> — 5–7 business days
-                    <span id="standard-price" style="margin-left:var(--space-2);color:var(--color-text-muted);"></span>
-                  </span>
-                </label>
-                <label style="display:flex;align-items:center;gap:var(--space-3);padding:var(--space-4);border:1px solid var(--color-border);border-radius:var(--radius);cursor:pointer;background:rgba(255,255,255,0.6);backdrop-filter:blur(6px);">
-                  <input type="radio" name="shipping" value="express" style="accent-color:var(--color-accent);" />
-                  <span>
-                    <strong>Express Shipping</strong> — 1–3 business days
-                    <span style="margin-left:var(--space-2);color:var(--color-text-muted);">$14.99</span>
-                  </span>
-                </label>
-              </div>
+            <div class="checkout-step-nav">
+              <button class="btn btn-outline btn-lg" id="step2-back">← Back</button>
+              <button class="btn btn-primary btn-lg" id="step2-next">Continue to Payment →</button>
             </div>
+          </div>
 
-            <button type="submit" class="btn btn-primary btn-lg btn-full btn-checkout">Place Order</button>
-            <p style="text-align:center;font-size:var(--font-size-sm);color:var(--color-text-muted);margin-top:var(--space-2);">
-              No payment required — this is a demo template.
+          <!-- STEP 3: Payment -->
+          <div class="checkout-step-section" id="checkout-step-3">
+            <h2 class="form-section-title">Payment Details</h2>
+            <p style="font-size:var(--font-size-sm);color:var(--color-text-muted);margin-bottom:var(--space-5);padding:var(--space-3) var(--space-4);background:rgba(167,139,250,0.08);border:1px solid rgba(167,139,250,0.2);border-radius:var(--radius);">
+              🔒 Demo only — no real payment is processed.
             </p>
+            <div class="form-fields">
+              <div class="form-group" id="group-card-name">
+                <label class="form-label" for="card-name">Cardholder Name<span class="required-star" aria-hidden="true">*</span></label>
+                <input type="text" id="card-name" name="cardName" class="form-input" autocomplete="cc-name" placeholder="Name on card" />
+                <span class="form-error" id="err-card-name" aria-live="polite"></span>
+              </div>
+              <div class="form-group" id="group-card-number">
+                <label class="form-label" for="card-number">Card Number<span class="required-star" aria-hidden="true">*</span></label>
+                <div class="card-input-wrap">
+                  <input type="text" id="card-number" name="cardNumber" class="form-input" autocomplete="cc-number" placeholder="1234 5678 9012 3456" maxlength="19" inputmode="numeric" />
+                  <span class="card-brand-icon" id="card-brand-icon">💳</span>
+                </div>
+                <span class="form-error" id="err-card-number" aria-live="polite"></span>
+              </div>
+              <div class="form-row cols-2">
+                <div class="form-group" id="group-card-expiry">
+                  <label class="form-label" for="card-expiry">Expiry MM/YY<span class="required-star" aria-hidden="true">*</span></label>
+                  <input type="text" id="card-expiry" name="cardExpiry" class="form-input" autocomplete="cc-exp" placeholder="MM/YY" maxlength="5" inputmode="numeric" />
+                  <span class="form-error" id="err-card-expiry" aria-live="polite"></span>
+                </div>
+                <div class="form-group" id="group-card-cvv">
+                  <label class="form-label" for="card-cvv">CVV<span class="required-star" aria-hidden="true">*</span></label>
+                  <input type="password" id="card-cvv" name="cardCVV" class="form-input" autocomplete="cc-csc" placeholder="•••" maxlength="4" inputmode="numeric" />
+                  <span class="form-error" id="err-card-cvv" aria-live="polite"></span>
+                </div>
+              </div>
+            </div>
+            <div class="checkout-step-nav">
+              <button class="btn btn-outline btn-lg" id="step3-back">← Back</button>
+              <button class="btn btn-primary btn-lg btn-checkout" id="step3-place-order">Place Order</button>
+            </div>
+          </div>
 
-          </form>
         </div>
 
         <!-- RIGHT: Order summary -->
@@ -194,20 +231,11 @@
           <div class="order-summary" style="position:sticky;top:calc(var(--navbar-height) + var(--space-4));">
             <h2 class="order-summary-title">Order Summary</h2>
 
-            <div id="checkout-items" style="display:flex;flex-direction:column;gap:var(--space-4);border-bottom:1px solid var(--color-border);padding-bottom:var(--space-4);"></div>
+            <div id="checkout-items" style="display:flex;flex-direction:column;gap:var(--space-4);border-bottom:1px solid var(--color-border);padding-bottom:var(--space-4);margin-bottom:var(--space-2);"></div>
 
-            <div class="order-summary-line">
-              <span>Subtotal</span>
-              <span id="co-subtotal">—</span>
-            </div>
-            <div class="order-summary-line">
-              <span>Shipping</span>
-              <span id="co-shipping">—</span>
-            </div>
-            <div class="order-summary-line total">
-              <span>Total</span>
-              <span id="co-total">—</span>
-            </div>
+            <div class="order-summary-line"><span>Subtotal</span><span id="co-subtotal">—</span></div>
+            <div class="order-summary-line"><span>Shipping</span><span id="co-shipping">—</span></div>
+            <div class="order-summary-line total"><span>Total</span><span id="co-total">—</span></div>
           </div>
         </div>
 
@@ -223,12 +251,30 @@
     </div>
   </footer>
 
-  <!-- Back to top -->
-  <button class="back-to-top" aria-label="Back to top" title="Back to top">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="18 15 12 9 6 15"/>
-    </svg>
-  </button>
+  <!-- CART PANEL -->
+  <div class="cart-overlay" id="cart-overlay" aria-hidden="true"></div>
+  <aside class="cart-panel" id="cart-panel" role="dialog" aria-label="Shopping cart" aria-modal="true">
+    <div class="cart-panel-header">
+      <h2 class="cart-panel-title">Cart <span class="cart-panel-count"></span></h2>
+      <button class="cart-panel-close" id="cart-panel-close" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-panel-body">
+      <div class="cart-panel-empty" id="cart-panel-empty" style="display:none;">
+        <div class="cart-panel-empty-icon">🛍️</div>
+        <p>Your cart is empty</p>
+        <a href="index.html#products" class="btn btn-primary">Start Shopping</a>
+      </div>
+      <ul class="cart-items" id="cart-panel-items" aria-label="Cart items"></ul>
+    </div>
+    <div class="cart-panel-footer" id="cart-panel-footer" style="display:none;">
+      <div class="order-summary-line"><span>Subtotal</span><span id="panel-subtotal">—</span></div>
+      <div class="order-summary-line"><span>Shipping</span><span id="panel-shipping">—</span></div>
+      <div class="order-summary-line total"><span>Total</span><span id="panel-total">—</span></div>
+      <button class="btn btn-primary btn-lg btn-full btn-checkout" id="panel-checkout-btn">Checkout</button>
+      <button class="btn btn-ghost btn-full" id="panel-continue-btn">← Continue Shopping</button>
+      <p class="shipping-note">Free shipping on orders over $75</p>
+    </div>
+  </aside>
 
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
@@ -238,103 +284,218 @@
       var cartItems = Cart.getCart();
 
       if (cartItems.length === 0) {
-        document.getElementById('checkout-empty').style.display = '';
+        document.getElementById('checkout-empty').style.display  = '';
         document.getElementById('checkout-layout').style.display = 'none';
         return;
       }
 
-      // Render order summary items
+      // ── Render order summary items ──────────────────────────
       document.getElementById('checkout-items').innerHTML = cartItems.map(function (item) {
         return '<div style="display:flex;gap:var(--space-3);align-items:center;">' +
           '<img src="' + item.image + '" alt="' + item.name + '" style="width:56px;height:56px;object-fit:cover;border:1px solid var(--color-border);border-radius:var(--radius);background:var(--color-surface);flex-shrink:0;" />' +
           '<div style="flex:1;min-width:0;">' +
             '<p style="font-weight:600;font-size:var(--font-size-sm);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + item.name + '</p>' +
-            '<p style="font-size:var(--font-size-xs);color:var(--color-text-muted);">Size: ' + item.size + ' &bull; Qty: ' + item.quantity + '</p>' +
+            '<p style="font-size:var(--font-size-xs);color:var(--color-text-muted);">Size: ' + item.size + ' · Qty: ' + item.quantity + '</p>' +
           '</div>' +
           '<span style="font-weight:700;font-size:var(--font-size-sm);white-space:nowrap;">' + formatPrice(item.price * item.quantity) + '</span>' +
         '</div>';
       }).join('');
 
       function updateSummary() {
-        var subtotal       = Cart.getSubtotal();
-        var shippingMethod = document.querySelector('input[name="shipping"]:checked').value;
-        var shippingCost   = shippingMethod === 'express' ? 14.99 : (subtotal >= 75 ? 0 : 7.99);
-
-        var standardEl = document.getElementById('standard-price');
-        if (standardEl) standardEl.textContent = subtotal >= 75 ? 'Free' : '$7.99';
-
+        var subtotal     = Cart.getSubtotal();
+        var radio        = document.querySelector('input[name="shipping"]:checked');
+        var method       = radio ? radio.value : 'standard';
+        var shippingCost = method === 'express' ? 14.99 : (subtotal >= 75 ? 0 : 7.99);
+        var stdEl        = document.getElementById('standard-price');
+        if (stdEl) stdEl.textContent = subtotal >= 75 ? 'Free' : '$7.99';
         document.getElementById('co-subtotal').textContent = formatPrice(subtotal);
         document.getElementById('co-shipping').textContent = shippingCost === 0 ? 'Free' : formatPrice(shippingCost);
         document.getElementById('co-total').textContent    = formatPrice(subtotal + shippingCost);
       }
 
-      document.querySelectorAll('input[name="shipping"]').forEach(function (radio) {
-        radio.addEventListener('change', updateSummary);
+      document.querySelectorAll('input[name="shipping"]').forEach(function (r) {
+        r.addEventListener('change', updateSummary);
       });
       updateSummary();
 
-      // Validation helpers
-      function setError(id, msg) {
-        var el    = document.getElementById('err-' + id);
-        var input = document.getElementById(id) || document.querySelector('[name="' + id + '"]');
-        if (el) el.textContent = msg;
-        if (input) {
-          if (msg) input.classList.add('error');
-          else      input.classList.remove('error');
-        }
-        return !!msg;
-      }
-
-      function clearErrors() {
-        ['first-name','last-name','email','address','city','zip','country'].forEach(function (id) {
-          setError(id, '');
+      // ── Form state persistence ──────────────────────────────
+      function saveFormState() {
+        var data = {};
+        document.querySelectorAll('.form-input, .form-select').forEach(function (el) {
+          if (el.name && el.type !== 'password') data[el.name] = el.value;
         });
+        sessionStorage.setItem('shop-checkout-data', JSON.stringify(data));
       }
 
-      function validateForm() {
-        clearErrors();
-        var hasError = false;
-
-        var firstName = document.getElementById('first-name').value.trim();
-        var lastName  = document.getElementById('last-name').value.trim();
-        var email     = document.getElementById('email').value.trim();
-        var address   = document.getElementById('address').value.trim();
-        var city      = document.getElementById('city').value.trim();
-        var zip       = document.getElementById('zip').value.trim();
-        var country   = document.getElementById('country').value;
-
-        if (!firstName) hasError = setError('first-name', 'First name is required.') || hasError;
-        if (!lastName)  hasError = setError('last-name',  'Last name is required.')  || hasError;
-        if (!email) {
-          hasError = setError('email', 'Email address is required.') || hasError;
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-          hasError = setError('email', 'Please enter a valid email address.') || hasError;
-        }
-        if (!address) hasError = setError('address', 'Street address is required.') || hasError;
-        if (!city)    hasError = setError('city',    'City is required.')            || hasError;
-        if (!zip)     hasError = setError('zip',     'ZIP / postal code is required.') || hasError;
-        if (!country) hasError = setError('country', 'Please select a country.')    || hasError;
-
-        return !hasError;
+      function restoreFormState() {
+        var saved = sessionStorage.getItem('shop-checkout-data');
+        if (!saved) return;
+        try {
+          var data = JSON.parse(saved);
+          Object.keys(data).forEach(function (name) {
+            var el = document.querySelector('[name="' + name + '"]');
+            if (el) el.value = data[name];
+          });
+        } catch (e) {}
       }
 
-      document.getElementById('checkout-form').addEventListener('submit', function (e) {
-        e.preventDefault();
-        if (!validateForm()) {
-          var firstErr = document.querySelector('.form-input.error, .form-select.error');
-          if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          return;
+      restoreFormState();
+      document.querySelectorAll('.form-input, .form-select').forEach(function (el) {
+        el.addEventListener('input',  saveFormState);
+        el.addEventListener('change', saveFormState);
+      });
+
+      // ── Validation helpers ──────────────────────────────────
+      function setFieldState(id, valid, message) {
+        var input = document.getElementById(id);
+        if (!input) return;
+        var group = input.closest('.form-group');
+        if (!group) return;
+        group.classList.toggle('field-valid',   valid);
+        group.classList.toggle('field-invalid', !valid);
+        var errEl = document.getElementById('err-' + id);
+        if (errEl) errEl.textContent = valid ? '' : (message || '');
+      }
+
+      function scrollToFirstError() {
+        var el = document.querySelector('.field-invalid .form-input, .field-invalid .form-select');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+
+      function validateStep(n) {
+        var ok = true;
+
+        if (n === 1) {
+          var fn = sanitizeInput(document.getElementById('first-name').value);
+          var ln = sanitizeInput(document.getElementById('last-name').value);
+          var em = sanitizeInput(document.getElementById('email').value);
+          var ph = document.getElementById('phone').value.trim();
+
+          if (!fn) { setFieldState('first-name', false, 'First name is required.'); ok = false; }
+          else        setFieldState('first-name', true);
+
+          if (!ln) { setFieldState('last-name', false, 'Last name is required.'); ok = false; }
+          else        setFieldState('last-name', true);
+
+          if (!em) {
+            setFieldState('email', false, 'Email is required.'); ok = false;
+          } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
+            setFieldState('email', false, 'Enter a valid email address.'); ok = false;
+          } else {
+            setFieldState('email', true);
+          }
+
+          if (ph && !/^[\+\d\s\-\(\)]{7,20}$/.test(ph)) {
+            setFieldState('phone', false, 'Enter a valid phone number.'); ok = false;
+          } else {
+            setFieldState('phone', true);
+          }
         }
 
-        var submitBtn = document.querySelector('[type="submit"]');
-        submitBtn.disabled    = true;
-        submitBtn.textContent = 'Placing Order…';
+        if (n === 2) {
+          var addr    = sanitizeInput(document.getElementById('address').value);
+          var city    = sanitizeInput(document.getElementById('city').value);
+          var zip     = sanitizeInput(document.getElementById('zip').value);
+          var country = document.getElementById('country').value;
 
-        var orderNumber = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+          if (!addr)    { setFieldState('address', false, 'Street address is required.'); ok = false; } else setFieldState('address', true);
+          if (!city)    { setFieldState('city',    false, 'City is required.');             ok = false; } else setFieldState('city',    true);
+          if (!zip)     { setFieldState('zip',     false, 'ZIP / postal code is required.'); ok = false; } else setFieldState('zip',    true);
+          if (!country) { setFieldState('country', false, 'Please select a country.');      ok = false; } else setFieldState('country', true);
+        }
+
+        if (n === 3) {
+          var cName   = sanitizeInput(document.getElementById('card-name').value);
+          var cNum    = document.getElementById('card-number').value.replace(/\s/g, '');
+          var cExpiry = document.getElementById('card-expiry').value.trim();
+          var cCVV    = document.getElementById('card-cvv').value.trim();
+
+          if (!cName) { setFieldState('card-name', false, 'Cardholder name is required.'); ok = false; }
+          else          setFieldState('card-name', true);
+
+          if (!/^\d{16}$/.test(cNum)) { setFieldState('card-number', false, 'Enter a valid 16-digit card number.'); ok = false; }
+          else                           setFieldState('card-number', true);
+
+          var expiryOk  = false;
+          var expiryM   = cExpiry.match(/^(\d{2})\/(\d{2})$/);
+          if (expiryM) {
+            var eMonth = parseInt(expiryM[1], 10);
+            var eYear  = parseInt('20' + expiryM[2], 10);
+            var now    = new Date();
+            if (eMonth >= 1 && eMonth <= 12) {
+              expiryOk = eYear > now.getFullYear() || (eYear === now.getFullYear() && eMonth >= (now.getMonth() + 1));
+            }
+          }
+          if (!expiryOk) { setFieldState('card-expiry', false, 'Enter a valid expiry (MM/YY) in the future.'); ok = false; }
+          else             setFieldState('card-expiry', true);
+
+          if (!/^\d{3,4}$/.test(cCVV)) { setFieldState('card-cvv', false, 'Enter a valid 3-digit CVV.'); ok = false; }
+          else                            setFieldState('card-cvv', true);
+        }
+
+        return ok;
+      }
+
+      // ── Step navigation ──────────────────────────────────────
+      function showStep(n) {
+        [1, 2, 3].forEach(function (i) {
+          var sec = document.getElementById('checkout-step-' + i);
+          if (sec) sec.classList.toggle('active-step', i === n);
+          var dot = document.getElementById('step-dot-' + i);
+          if (dot) {
+            dot.classList.toggle('active', i === n);
+            dot.classList.toggle('done',   i < n);
+          }
+          if (i < 3) {
+            var line = document.getElementById('step-line-' + i);
+            if (line) line.classList.toggle('filled', i < n);
+          }
+        });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        updateSummary();
+      }
+
+      document.getElementById('step1-next').addEventListener('click', function () {
+        if (validateStep(1)) showStep(2);
+        else scrollToFirstError();
+      });
+
+      document.getElementById('step2-back').addEventListener('click', function () { showStep(1); });
+      document.getElementById('step2-next').addEventListener('click', function () {
+        if (validateStep(2)) showStep(3);
+        else scrollToFirstError();
+      });
+
+      document.getElementById('step3-back').addEventListener('click', function () { showStep(2); });
+      document.getElementById('step3-place-order').addEventListener('click', function () {
+        if (!validateStep(3)) { scrollToFirstError(); return; }
+        this.disabled     = true;
+        this.textContent  = 'Placing Order…';
+        var orderNumber   = 'ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase();
+        sessionStorage.removeItem('shop-checkout-data');
         Cart.clearCart();
         setTimeout(function () {
           window.location.href = 'success.html?order=' + orderNumber;
-        }, 600);
+        }, 700);
+      });
+
+      // ── Back button ───────────────────────────────────────────
+      var backBtn = document.getElementById('back-btn');
+      if (backBtn) {
+        backBtn.href = sessionStorage.getItem('shop-checkout-prev') || 'index.html';
+      }
+
+      // ── Card number auto-space ────────────────────────────────
+      document.getElementById('card-number').addEventListener('input', function (e) {
+        var raw   = e.target.value.replace(/\D/g, '').slice(0, 16);
+        var parts = raw.match(/.{1,4}/g);
+        e.target.value = parts ? parts.join(' ') : raw;
+      });
+
+      // ── Expiry auto-slash ─────────────────────────────────────
+      document.getElementById('card-expiry').addEventListener('input', function (e) {
+        var raw = e.target.value.replace(/\D/g, '').slice(0, 4);
+        e.target.value = raw.length >= 3 ? raw.slice(0, 2) + '/' + raw.slice(2) : raw;
       });
 
     })();

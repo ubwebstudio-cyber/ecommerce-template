@@ -25,22 +25,23 @@
   <nav class="navbar">
     <div class="container navbar-inner">
       <a href="index.html" class="navbar-logo">SHOP</a>
-      <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
-        <span></span><span></span><span></span>
-      </button>
-      <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">
-        <svg class="theme-icon theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-        <svg class="theme-icon theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-      </button>
       <ul class="navbar-links" id="navbar-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="index.html#products">Shop</a></li>
-        <li>
-          <a href="cart.html" class="cart-link">
-            Cart <span class="cart-badge" id="cart-count">0</span>
-          </a>
-        </li>
       </ul>
+      <div class="navbar-actions">
+        <button class="theme-toggle" id="theme-toggle" aria-label="Switch to dark mode" title="Switch to dark mode">
+          <svg class="theme-icon theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="theme-icon theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+        <button class="cart-icon-btn" id="cart-icon-btn" aria-label="Open cart">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+          <span class="cart-badge" id="cart-count">0</span>
+        </button>
+        <button class="navbar-toggle" id="navbar-toggle" aria-label="Toggle menu" aria-expanded="false">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
   </nav>
 
@@ -102,11 +103,41 @@
     </div>
   </footer>
 
+  <!-- CART PANEL -->
+  <div class="cart-overlay" id="cart-overlay" aria-hidden="true"></div>
+  <aside class="cart-panel" id="cart-panel" role="dialog" aria-label="Shopping cart" aria-modal="true">
+    <div class="cart-panel-header">
+      <h2 class="cart-panel-title">Cart <span class="cart-panel-count"></span></h2>
+      <button class="cart-panel-close" id="cart-panel-close" aria-label="Close cart">✕</button>
+    </div>
+    <div class="cart-panel-body">
+      <div class="cart-panel-empty" id="cart-panel-empty" style="display:none;">
+        <div class="cart-panel-empty-icon">🛍️</div>
+        <p>Your cart is empty</p>
+        <a href="index.html#products" class="btn btn-primary">Start Shopping</a>
+      </div>
+      <ul class="cart-items" id="cart-panel-items" aria-label="Cart items"></ul>
+    </div>
+    <div class="cart-panel-footer" id="cart-panel-footer" style="display:none;">
+      <div class="order-summary-line"><span>Subtotal</span><span id="panel-subtotal">—</span></div>
+      <div class="order-summary-line"><span>Shipping</span><span id="panel-shipping">—</span></div>
+      <div class="order-summary-line total"><span>Total</span><span id="panel-total">—</span></div>
+      <button class="btn btn-primary btn-lg btn-full btn-checkout" id="panel-checkout-btn">Checkout</button>
+      <button class="btn btn-ghost btn-full" id="panel-continue-btn">← Continue Shopping</button>
+      <p class="shipping-note">Free shipping on orders over $75</p>
+    </div>
+  </aside>
+
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
   <script src="js/main.js"></script>
   <script>
     (function () {
+      // Clear checkout form state
+      sessionStorage.removeItem('shop-checkout-data');
+      sessionStorage.removeItem('shop-checkout-prev');
+
+      // Show order number from URL
       var params = new URLSearchParams(window.location.search);
       var order  = params.get('order');
       var el     = document.getElementById('order-number');
