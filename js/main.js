@@ -311,7 +311,6 @@ function initCartPanel() {
     panel.classList.remove('is-open');
     if (overlay) overlay.classList.remove('active');
     document.body.style.overflow = '';
-    iconBtn.focus();
   }
 
   function renderItems() {
@@ -407,10 +406,14 @@ function initCartPanel() {
   var checkoutBtn = document.getElementById('panel-checkout-btn');
   if (checkoutBtn) {
     checkoutBtn.addEventListener('click', function () {
+      // If already on checkout page, just close the panel — don't reload and reset the wizard
+      if (window.location.pathname.indexOf('checkout.html') !== -1) {
+        close();
+        return;
+      }
       sessionStorage.setItem('shop-checkout-prev', window.location.pathname + window.location.search + window.location.hash);
       close();
-      document.body.classList.add('page-transition-out');
-      setTimeout(function () { window.location.href = 'checkout.html'; }, 220);
+      window.location.href = 'checkout.html';
     });
   }
 
