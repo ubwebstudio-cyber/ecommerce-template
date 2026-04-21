@@ -7,6 +7,17 @@ function formatPrice(price) {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
 }
 
+// ── HTML escape — use for any user/content data interpolated into innerHTML
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 // ── Input sanitizer ───────────────────────────────────────
 function sanitizeInput(str) {
   if (typeof str !== 'string') return '';
@@ -326,21 +337,25 @@ function initCartPanel() {
       if (emptyEl)  emptyEl.style.display  = 'none';
       if (footerEl) footerEl.style.display  = 'flex';
       if (itemsEl)  itemsEl.innerHTML = items.map(function (item, i) {
-        return '<li class="cart-item" data-key="' + item.key + '" style="animation-delay:' + (i * 0.06) + 's">' +
-          '<img class="cart-item-img" src="' + item.image + '" alt="' + item.name + '" />' +
+        var key   = escapeHtml(item.key);
+        var name  = escapeHtml(item.name);
+        var size  = escapeHtml(item.size);
+        var image = escapeHtml(item.image);
+        return '<li class="cart-item" data-key="' + key + '" style="animation-delay:' + (i * 0.06) + 's">' +
+          '<img class="cart-item-img" src="' + image + '" alt="' + name + '" />' +
           '<div class="cart-item-info">' +
-            '<span class="cart-item-name">' + item.name + '</span>' +
-            '<span class="cart-item-meta">Size: ' + item.size + '</span>' +
+            '<span class="cart-item-name">' + name + '</span>' +
+            '<span class="cart-item-meta">Size: ' + size + '</span>' +
             '<span class="cart-item-price">' + formatPrice(item.price) + ' each</span>' +
           '</div>' +
           '<div class="cart-item-controls">' +
             '<span class="cart-item-total">' + formatPrice(item.price * item.quantity) + '</span>' +
             '<div class="cart-qty-picker">' +
-              '<button class="cart-qty-btn" data-action="minus" data-key="' + item.key + '" aria-label="Decrease">&minus;</button>' +
-              '<input type="number" class="cart-qty-input" value="' + item.quantity + '" min="1" max="99" data-key="' + item.key + '" aria-label="Quantity" />' +
-              '<button class="cart-qty-btn" data-action="plus" data-key="' + item.key + '" aria-label="Increase">+</button>' +
+              '<button class="cart-qty-btn" data-action="minus" data-key="' + key + '" aria-label="Decrease">&minus;</button>' +
+              '<input type="number" class="cart-qty-input" value="' + item.quantity + '" min="1" max="99" data-key="' + key + '" aria-label="Quantity" />' +
+              '<button class="cart-qty-btn" data-action="plus" data-key="' + key + '" aria-label="Increase">+</button>' +
             '</div>' +
-            '<button class="cart-remove-btn" data-key="' + item.key + '">Remove</button>' +
+            '<button class="cart-remove-btn" data-key="' + key + '">Remove</button>' +
           '</div>' +
         '</li>';
       }).join('');

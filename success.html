@@ -3,7 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Order confirmed — SHOP. Thank you for your purchase." />
+  <meta name="robots" content="noindex" />
+  <meta name="color-scheme" content="light dark" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+  <meta name="theme-color" content="#0f0e17" media="(prefers-color-scheme: dark)" />
   <title>Order Confirmed — SHOP</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0%25' stop-color='%23a78bfa'/%3E%3Cstop offset='50%25' stop-color='%23f472b6'/%3E%3Cstop offset='100%25' stop-color='%2334d399'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23g)' d='M8 10 L6 28 H26 L24 10 Z M11 10 a5 5 0 0 1 10 0' stroke='%23fff' stroke-width='2' stroke-linejoin='round' stroke-linecap='round' fill-opacity='0.95'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <script>
     (function () {
       var s = localStorage.getItem('shop-theme');
@@ -14,6 +22,9 @@
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
+
+  <!-- Skip to content -->
+  <a href="#main" class="skip-link">Skip to content</a>
 
   <!-- Scroll progress bar -->
   <div class="scroll-progress" aria-hidden="true"></div>
@@ -34,6 +45,10 @@
           <svg class="theme-icon theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           <svg class="theme-icon theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
         </button>
+        <a href="index.html#wishlist-section" class="cart-icon-btn wishlist-nav-btn" id="wishlist-nav-btn" aria-label="View wishlist" title="Wishlist">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="cart-badge" id="wishlist-count">0</span>
+        </a>
         <button class="cart-icon-btn" id="cart-icon-btn" aria-label="Open cart">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
           <span class="cart-badge" id="cart-count">0</span>
@@ -45,7 +60,7 @@
     </div>
   </nav>
 
-  <main class="success-page">
+  <main class="success-page" id="main">
     <div class="container">
 
       <!-- Animated SVG checkmark -->
@@ -87,6 +102,18 @@
         A confirmation email would normally be sent to you at this point —
         but this is a demo template, so nothing was actually charged or shipped.
       </p>
+
+      <!-- Order recap (populated by JS if a snapshot is available) -->
+      <div class="order-recap" id="order-recap" style="display:none;">
+        <h2 class="order-recap-title">Order details</h2>
+        <ul class="order-recap-items" id="order-recap-items"></ul>
+        <div class="order-recap-totals">
+          <div class="order-summary-line"><span>Subtotal</span><span id="recap-subtotal">—</span></div>
+          <div class="order-summary-line" id="recap-discount-line" style="display:none;color:var(--color-success);"><span id="recap-discount-label">Discount</span><span id="recap-discount">—</span></div>
+          <div class="order-summary-line"><span>Shipping</span><span id="recap-shipping">—</span></div>
+          <div class="order-summary-line total"><span>Total</span><span id="recap-total">—</span></div>
+        </div>
+      </div>
 
       <div style="display:flex;gap:var(--space-3);justify-content:center;flex-wrap:wrap;">
         <a href="index.html" class="btn btn-primary btn-lg btn-glow">Back to Shop</a>
@@ -130,6 +157,8 @@
 
   <script src="js/products.js"></script>
   <script src="js/cart.js"></script>
+  <script src="js/wishlist.js"></script>
+  <script src="js/templates.js"></script>
   <script src="js/main.js"></script>
   <script>
     (function () {
@@ -142,6 +171,38 @@
       var order  = params.get('order');
       var el     = document.getElementById('order-number');
       el.textContent = order || ('ORD-' + Math.random().toString(36).substr(2, 9).toUpperCase());
+
+      // Show order recap if snapshot exists
+      var raw = sessionStorage.getItem('shop-last-order');
+      if (!raw) return;
+      var data;
+      try { data = JSON.parse(raw); } catch (e) { return; }
+      if (!data || !Array.isArray(data.items) || data.items.length === 0) return;
+      if (order && data.number && data.number !== order) return;
+
+      document.getElementById('order-recap').style.display = '';
+      document.getElementById('order-recap-items').innerHTML = data.items.map(function (item) {
+        var name  = escapeHtml(item.name);
+        var size  = escapeHtml(item.size);
+        var image = escapeHtml(item.image);
+        return '<li class="order-recap-item">' +
+          '<img src="' + image + '" alt="' + name + '" />' +
+          '<div class="order-recap-item-info">' +
+            '<span class="order-recap-item-name">' + name + '</span>' +
+            '<span class="order-recap-item-meta">Size: ' + size + ' · Qty: ' + item.quantity + '</span>' +
+          '</div>' +
+          '<span class="order-recap-item-price">' + formatPrice(item.price * item.quantity) + '</span>' +
+        '</li>';
+      }).join('');
+
+      document.getElementById('recap-subtotal').textContent = formatPrice(data.subtotal);
+      document.getElementById('recap-shipping').textContent = data.shipping === 0 ? 'Free' : formatPrice(data.shipping);
+      document.getElementById('recap-total').textContent    = formatPrice(data.total);
+      if (data.discount && data.discount > 0) {
+        document.getElementById('recap-discount-line').style.display = '';
+        document.getElementById('recap-discount-label').textContent  = 'Discount' + (data.promo ? ' (' + data.promo + ')' : '');
+        document.getElementById('recap-discount').textContent        = '−' + formatPrice(data.discount);
+      }
     })();
   </script>
 </body>

@@ -6,11 +6,19 @@ A clean, minimal front-end e-commerce template built with plain HTML, CSS, and J
 
 | File | Description |
 |---|---|
-| `index.html` | Homepage — hero, product grid, category filters, search, sort |
+| `index.html` | Homepage — hero, collections lookbook, product grid, filters, search, sort, wishlist section |
 | `product.html` | Product detail — image, description, size selector, quantity, add to cart |
-| `cart.html` | Cart — item list with quantity controls, subtotal, proceed to checkout |
-| `checkout.html` | Checkout — customer form, order summary, form validation |
-| `success.html` | Order confirmation — order number, back to shop link |
+| `checkout.html` | Checkout — 3-step wizard, promo codes, shipping methods, form validation |
+| `success.html` | Order confirmation — order number and item recap |
+
+## Features
+
+- **Wishlist (favorites)** — heart icon on each product card, stored in `localStorage`, count badge in the navbar, and a dedicated section on the homepage.
+- **Promo codes** — try `SAVE10`, `WELCOME` (15% off), or `FLAT5` ($5 off) on the checkout page.
+- **Cart slide-in panel** — click the cart icon to open on any page.
+- **Dark mode toggle** — respects system preference; persisted in `localStorage`.
+- **Keyboard accessibility** — skip-to-content link, visible focus rings, full keyboard navigation.
+- **Reduced motion** — all decorative animations disable when `prefers-reduced-motion: reduce` is set.
 
 ## How to Run
 
@@ -140,7 +148,9 @@ ecommerce-template/
 ├── js/
 │   ├── products.js      ← product data array (mock database)
 │   ├── cart.js          ← cart logic + localStorage read/write
-│   └── main.js          ← shared UI: navbar, cart badge, toast
+│   ├── wishlist.js      ← wishlist (favorites) logic + localStorage
+│   ├── templates.js     ← shared product card renderer
+│   └── main.js          ← shared UI: navbar, cart badge, toast, escapeHtml
 ├── images/
 │   └── placeholder.svg  ← replace with real product images
 └── README.md
